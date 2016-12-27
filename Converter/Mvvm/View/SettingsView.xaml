@@ -1,0 +1,156 @@
+﻿<Window
+    x:Class="Converter.Mvvm.View.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:Converter.Helpers"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    xmlns:userControls="clr-namespace:Converter.UserControls"
+    xmlns:viewModel="clr-namespace:Converter.Mvvm.ViewModel.Settings"
+    x:Name="SettingsWindow"
+    Title="Settings"
+    Height="400"
+    helpers:CenterOnSizeChangedBehavior.CenterOnSizeChange="True"
+    Background="#FF2E2E2E"
+    DataContext="{DynamicResource SettingsViewModel}"
+    FocusManager.FocusedElement="{Binding ElementName=AddBtn}"
+    SizeToContent="Width"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <Window.InputBindings>
+        <KeyBinding
+            Key="Delete"
+            Command="{Binding RemoveProgramCommand}"
+            Gesture="Del" />
+        <KeyBinding
+            Key="a"
+            Command="{Binding AddProgramCommand}"
+            Gesture="Ctrl+A"
+            Modifiers="Control" />
+        <KeyBinding
+            Key="e"
+            Command="{Binding EditProgramCommand}"
+            Gesture="Ctrl+E"
+            Modifiers="Control" />
+        <KeyBinding
+            Key="Escape"
+            Command="{Binding CloseWindowCommand}"
+            Gesture="Esc" />
+    </Window.InputBindings>
+    <Window.Resources>
+        <viewModel:SettingsViewModel x:Key="SettingsViewModel" />
+        <CollectionViewSource x:Key="DtgCollectionViewSource" Source="{Binding Programs}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription Direction="Descending" PropertyName="Id" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            Margin="5,0"
+            HorizontalAlignment="Left"
+            Orientation="Horizontal">
+            <Button
+                Name="AddBtn"
+                Command="{Binding AddProgramCommand}"
+                Content="Add"
+                Style="{StaticResource BtnStyle}"
+                ToolTip="Add new program" />
+            <Button
+                Command="{Binding EditProgramCommand}"
+                Content="Edit"
+                Style="{StaticResource BtnStyle}"
+                ToolTip="Edit selected program" />
+            <Button
+                Margin="20,5"
+                Command="{Binding RemoveProgramCommand}"
+                Content="Remove"
+                Style="{StaticResource BtnStyle}"
+                ToolTip="Delete selected program" />
+        </StackPanel>
+        <Border
+            Grid.Row="1"
+            Margin="10"
+            BorderBrush="DimGray"
+            BorderThickness="1">
+            <Grid MinHeight="300">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <userControls:Loading
+                    Grid.Row="0"
+                    Width="700"
+                    Height="300"
+                    Margin="5"
+                    Visibility="{Binding LoadingUserControlVisibility}" />
+                <DataGrid
+                    Grid.Row="1"
+                    CellStyle="{StaticResource DtgCellStyle}"
+                    ColumnHeaderStyle="{StaticResource DtgHeaderStyle}"
+                    ItemsSource="{Binding Source={StaticResource DtgCollectionViewSource}}"
+                    RowHeaderStyle="{StaticResource DtgRowHeaderStyle}"
+                    SelectedIndex="{Binding SelectedIndex}"
+                    SelectedItem="{Binding SelectedProgram}"
+                    Style="{StaticResource DtgSettingsStyle}"
+                    Visibility="{Binding ProgramsVisibility}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Binding="{Binding Title}"
+                            ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                            Header="Title" />
+                        <DataGridTextColumn
+                            Binding="{Binding StartLabel}"
+                            ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                            Header="Start Label" />
+                        <DataGridTextColumn
+                            Binding="{Binding EndLabel}"
+                            ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                            Header="End Label" />
+                        <DataGridTextColumn
+                            Width="100"
+                            Binding="{Binding Lang}"
+                            Header="Lang" />
+                        <DataGridTextColumn
+                            Width="100"
+                            Binding="{Binding Author}"
+                            Header="Author" />
+                        <DataGridTextColumn
+                            Width="100"
+                            Binding="{Binding Presenter}"
+                            Header="Presenter" />
+                    </DataGrid.Columns>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding EditProgramCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <DataGrid.InputBindings>
+                        <KeyBinding
+                            Key="Delete"
+                            Command="{Binding RemoveProgramCommand}"
+                            Gesture="Del" />
+                        <KeyBinding
+                            Key="a"
+                            Command="{Binding AddProgramCommand}"
+                            Gesture="Ctrl+A"
+                            Modifiers="Control" />
+                        <KeyBinding
+                            Key="e"
+                            Command="{Binding EditProgramCommand}"
+                            Gesture="Ctrl+E"
+                            Modifiers="Control" />
+                    </DataGrid.InputBindings>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
