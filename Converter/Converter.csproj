@@ -94,6 +94,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+    <Folder Include="Images\" />
+    <Folder Include="Mvvm\Model\" />
+    <Folder Include="Mvvm\ViewModel\" />
+    <Folder Include="Mvvm\View\" />
+    <Folder Include="Resources\" />
+    <Folder Include="UserControls\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
