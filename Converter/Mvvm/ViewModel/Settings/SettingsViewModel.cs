@@ -74,7 +74,7 @@ namespace Converter.Mvvm.ViewModel.Settings
         public SettingsViewModel()
         {
             _fromDb = new FromDb();
-            TryToFillProgramsWithDbData();
+            AsyncGetProgramsFromDb();
 
             AddProgramCommand = new RelayCommand(AddWindowShow);
             EditProgramCommand = new RelayCommand(EditWindowShow, CanEditProgram);
@@ -83,26 +83,31 @@ namespace Converter.Mvvm.ViewModel.Settings
             _programsVisibility = Visibility.Collapsed;
         }
 
-        public async void TryToFillProgramsWithDbData()
+        public async void AsyncGetProgramsFromDb()
         {
-            try
-            {
-                await GetProgramsFromDb();
-                SetControlsLoadedState();
-            }
-            catch (Exception exception)
-            {
-                ExceptionHandler(exception);
-            }
+            await GetProgramsFromDb();
+            SetControlsLoadedState();
         }
 
         private Task GetProgramsFromDb()
         {
             return Task.Run(() =>
             {
-                _fromDb.FillPrograms();
+                TryToFillPrograms();
                 _programs = _fromDb.GetPrograms();
             });
+        }
+
+        private void TryToFillPrograms()
+        {
+            try
+            {
+                _fromDb.FillPrograms();
+            }
+            catch (Exception exception)
+            {
+                ExceptionHandler(exception);
+            }
         }
 
         private void SetControlsLoadedState()

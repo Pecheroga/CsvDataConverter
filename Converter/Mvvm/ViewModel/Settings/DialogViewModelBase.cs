@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,7 +12,7 @@ namespace Converter.Mvvm.ViewModel.Settings
 
     class DialogViewModelBase : ViewModelBase, IDialogViewModelBase
     {
-        protected readonly IToDb ToDb;
+        protected IToDb ToDb;
         protected readonly ISettingsViewModel SettingsViewModel;
 
         private BindingGroup _editBindingGroup;
@@ -35,7 +36,7 @@ namespace Converter.Mvvm.ViewModel.Settings
 
         public DialogViewModelBase(ISettingsViewModel settingsViewModel)
         {
-            ToDb = new ToDb();
+            TryConnectToDb();
             SettingsViewModel = settingsViewModel;
             EditBindingGroup = new BindingGroup
             {
@@ -48,6 +49,18 @@ namespace Converter.Mvvm.ViewModel.Settings
 
             SelectAllBehavior.TxtbEditStarted += _selectAllBehavior_TxtbEditStarted;
             EditStarted = false;
+        }
+
+        private void TryConnectToDb()
+        {
+            try
+            {
+                ToDb = new ToDb();
+            }
+            catch (Exception exception)
+            {
+                ExceptionHandler(exception);
+            }
         }
 
         protected virtual void Ok(object parameter)

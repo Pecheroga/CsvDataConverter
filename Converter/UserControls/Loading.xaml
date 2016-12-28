@@ -18,7 +18,7 @@
             Width="50"
             Height="50"
             RenderTransformOrigin="0.5, 0.5"
-            Source="../Resources/loading.png">
+            Source="../Images/loading.png">
             <Image.RenderTransform>
                 <RotateTransform x:Name="NoFreeze" Angle="0" />
             </Image.RenderTransform>

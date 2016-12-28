@@ -6,7 +6,7 @@ using DataSource.Base;
 
 namespace Converter.Mvvm.ViewModel.Settings
 {
-    class AddDialogViewModel : DialogViewModelBase
+    internal sealed class AddDialogViewModel : DialogViewModelBase
     {
         public Program SelectedProgram { get; set; }
         private Program _program;
@@ -28,7 +28,10 @@ namespace Converter.Mvvm.ViewModel.Settings
 
         private void AddProgram()
         {
-            var maxIdInPrograms = SettingsViewModel.Programs.Max(p => p.Id);
+            var maxIdInPrograms = 
+                SettingsViewModel.Programs.Count == 0 
+                ? 0 
+                : SettingsViewModel.Programs.Max(p => p.Id);
             var newProgramId = maxIdInPrograms + 1;
             _program = new Program
             {

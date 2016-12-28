@@ -22,7 +22,7 @@ namespace DataSource.Db
         private void SetConnectionString()
         {
             DataSourceConnectionString =
-                ConfigurationManager.ConnectionStrings["DataSource.Properties.Settings.DataSourceConnectionString"].ConnectionString;
+                ConfigurationManager.ConnectionStrings["DbConnectionString"].ConnectionString;
         }
     }
 }
