@@ -8,9 +8,7 @@ using DataSource.Db;
 
 namespace Converter.Mvvm.ViewModel.Settings
 {
-    public interface IDialogViewModelBase { }
-
-    class DialogViewModelBase : ViewModelBase, IDialogViewModelBase
+    internal class DialogViewModelBase : ViewModelBase
     {
         protected IToDb ToDb;
         protected readonly ISettingsViewModel SettingsViewModel;

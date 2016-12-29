@@ -81,7 +81,7 @@ namespace Converter.Mvvm.Model
         }
     }
 
-    internal class ExcelAppBlank : ExcelAppBase
+    internal sealed class ExcelAppBlank : ExcelAppBase
     {
         public ExcelAppBlank()
         {
@@ -89,14 +89,14 @@ namespace Converter.Mvvm.Model
             SetFirstWorksheet();
         }
 
-        protected sealed override void AddWorkbook()
+        protected override void AddWorkbook()
         {
             Workbook = ExcelApp.Workbooks.Add();
             base.AddWorkbook();
         }
     }
 
-    internal class ExcelAppFromFile : ExcelAppBase
+    internal sealed class ExcelAppFromFile : ExcelAppBase
     {
         private readonly string _nameOfChosenFile;
 
@@ -107,7 +107,7 @@ namespace Converter.Mvvm.Model
             SetFirstWorksheet();
         }
 
-        protected sealed override void AddWorkbook()
+        protected override void AddWorkbook()
         {
             Workbook = ExcelApp.Workbooks.Open(
                 _nameOfChosenFile, // File name

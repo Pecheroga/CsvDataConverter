@@ -1,3 +1,5 @@
+#Csv to xlsx converter
+
 This program is designed to convert files, exported from Playbox ListBox format *.csv, to Excel format *xls.
 Converter is automaticaly creates in the output excel file additional columns with special info about the program
 like an Author, Language, Presenter of the program.

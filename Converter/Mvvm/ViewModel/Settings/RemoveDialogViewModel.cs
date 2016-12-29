@@ -2,7 +2,7 @@
 
 namespace Converter.Mvvm.ViewModel.Settings
 {
-    class RemoveDialogViewModel : DialogViewModelBase
+    internal sealed class RemoveDialogViewModel : DialogViewModelBase
     {
         public string ConfirmText { get; set; }
         private readonly int _selectedIndex;

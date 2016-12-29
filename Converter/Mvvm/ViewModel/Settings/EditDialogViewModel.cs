@@ -4,7 +4,7 @@ using DataSource.Base;
 
 namespace Converter.Mvvm.ViewModel.Settings
 {
-    class EditDialogViewModel : DialogViewModelBase
+    internal sealed class EditDialogViewModel : DialogViewModelBase
     {
         private Program _selectedProgram;
         public Program SelectedProgram

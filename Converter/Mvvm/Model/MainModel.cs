@@ -6,7 +6,7 @@ using DataSource.Base;
 
 namespace Converter.Mvvm.Model
 {
-    internal class MainModel : Notifier
+    internal sealed class MainModel : Notifier
     {
         private string _nameOfChosenFile;
         private SourceFile _sourceFile;

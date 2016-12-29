@@ -6,7 +6,7 @@ using Converter.Mvvm.ViewModel;
 
 namespace Converter.Helpers
 {
-    internal class ExceptionWindow : Exception
+    internal sealed class ExceptionWindow : Exception
     {
         public ExceptionWindow(Exception exception) : base(exception.Message, exception) { }
 
@@ -30,7 +30,7 @@ namespace Converter.Helpers
         }
     }
 
-    internal class ExcelException : Exception
+    internal sealed class ExcelException : Exception
     {
         public ExcelException(ExcelAppBase excelAppBase, string exceptionMessage)
             : base(exceptionMessage)

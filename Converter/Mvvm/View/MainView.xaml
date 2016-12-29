@@ -9,9 +9,9 @@
     Title="CSV Converter"
     Width="750"
     Height="770"
-    Icon="../../Images/logo.png"
     Background="#FF2E2E2E"
     DataContext="{DynamicResource MainViewModel}"
+    Icon="../../Images/logo.png"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.Resources>
@@ -147,7 +147,7 @@
                                 Grid.ColumnSpan="2"
                                 Foreground="{Binding ColorOfProgressText}"
                                 Style="{StaticResource TxblProgressStyle}">
-                                <Run Text="Выполнено: " />
+                                <Run Text="Done: " />
                                 <Run Text="{Binding PercentValueProgressBar}" />
                                 <Run>%</Run>
                             </TextBlock>

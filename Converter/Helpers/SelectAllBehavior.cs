@@ -5,7 +5,7 @@ using System.Windows.Interactivity;
 
 namespace Converter.Helpers
 {
-    class SelectAllBehavior : Behavior<TextBox>
+    internal sealed class SelectAllBehavior : Behavior<TextBox>
     {
         public static event EventHandler<TextBox> TxtbEditStarted;
 

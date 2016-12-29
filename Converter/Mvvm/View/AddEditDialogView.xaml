@@ -33,7 +33,7 @@
                 <Label
                     Grid.Row="0"
                     Grid.Column="0"
-                    Content="SourceTitle:"
+                    Content="Output Title:"
                     Style="{StaticResource LblEditStyle}" />
                 <Label
                     Grid.Row="0"

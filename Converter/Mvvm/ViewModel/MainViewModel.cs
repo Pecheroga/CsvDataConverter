@@ -9,9 +9,7 @@ using Microsoft.Win32;
 
 namespace Converter.Mvvm.ViewModel
 {
-    public interface IMainViewModel { }
-
-    class MainViewModel : ViewModelBase, IMainViewModel
+    internal sealed class MainViewModel : ViewModelBase
     {
         private bool _canSaveAs;
         private bool _canOpenOutputFile;

@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Converter.Helpers
 {
-    public class Notifier : INotifyPropertyChanged
+    internal class Notifier : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -16,7 +16,7 @@ namespace Converter.Mvvm.ViewModel.Settings
         int SelectedIndex { get; set; }
     }
 
-    class SettingsViewModel : ViewModelBase, ISettingsViewModel
+    internal sealed class SettingsViewModel : ViewModelBase, ISettingsViewModel
     {
         private readonly IFromDb _fromDb;
 

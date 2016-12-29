@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace Converter.Helpers
 {
-    class RelayCommand : ICommand
+    internal sealed class RelayCommand : ICommand
     {
         private readonly Action<object> _executeAction;
         private readonly Predicate<object> _canExecutePredicate;

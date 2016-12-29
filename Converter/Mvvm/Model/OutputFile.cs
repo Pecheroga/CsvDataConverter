@@ -7,7 +7,7 @@ using Microsoft.Win32;
 
 namespace Converter.Mvvm.Model
 {
-    internal class OutputFile
+    internal sealed class OutputFile
     {
         private readonly string _nameOfChosenFileWithoutExtension;
         private readonly string _nameOfOutputFile;

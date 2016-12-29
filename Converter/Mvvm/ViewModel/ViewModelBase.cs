@@ -5,7 +5,7 @@ using Converter.Helpers;
 
 namespace Converter.Mvvm.ViewModel
 {
-    class ViewModelBase : Notifier
+    internal class ViewModelBase : Notifier
     {
         public string WindowTitle { get; set; }
         public RelayCommand CloseWindowCommand { get; set; }

@@ -36,12 +36,12 @@
             HorizontalAlignment="Left"
             Style="{StaticResource TxblStyle}"
             TextWrapping="Wrap">
-            The CSV to XLS converter is designed to convert files, imported from ListBox in format *.csv, to Excel format *xls.
-            Converter is automaticaly creating additional columns with special info about the program
-            like an Author, Language, Presenter of the program in output file.
+            This program is designed to convert files, exported from Playbox ListBox format *.csv, to Excel format *xls.
+            Converter is automaticaly creates in the output excel file additional columns with special info about the program
+            like an Author, Language, Presenter of the program.
             <LineBreak />
             <LineBreak />
-            Also important action is to delete a technical events of the playlist and is to collapse a programs with
+            Also important action is to delete a technical events of the playlist and to collapse a programs whith has
             many parts to one event. For this used special Start and End Labels of the program.
             <LineBreak />
             <LineBreak />

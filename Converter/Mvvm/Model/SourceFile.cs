@@ -8,7 +8,7 @@ using Microsoft.Office.Interop.Excel;
 
 namespace Converter.Mvvm.Model
 {
-    internal class SourceFile
+    internal sealed class SourceFile
     {
         private SourceProgram _newSourceProgram;
         private OutputProgram _outputProgram;
@@ -121,22 +121,9 @@ namespace Converter.Mvvm.Model
                         if (sourceDuration == 0) _toNextRowWithoutSave = true;
                         _newSourceProgram.SourceDuration = sourceDuration;
                         break;
+                    default:
+                        continue;
                 }
-
-                //switch (parsingColumn)
-                //{
-                //    case 1:
-                //        _newSourceProgram.SourceStartTime = parsingCell.Value2;
-                //        break;
-                //    case 2:
-                //        _newSourceProgram.SourceTitle = parsingCell.Value2.ToString();
-                //        break;
-                //    case 3:
-                //        var sourceDuration = parsingCell.Value2;
-                //        if (sourceDuration == 0) _toNextRowWithoutSave = true;
-                //        _newSourceProgram.SourceDuration = sourceDuration;
-                //        break;
-                //}
             }
         }
 
