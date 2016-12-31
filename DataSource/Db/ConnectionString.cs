@@ -5,13 +5,13 @@ namespace DataSource.Db
 {
     public class ConnectionString
     {
-        public string DataSourceConnectionString;
+        public string ProgramsDbConnectionString;
 
-        public void TryToSetConnectionString()
+        public void TryToGetConnectionString()
         {
             try
             {
-                SetConnectionString();
+                GetConnectionString();
             }
             catch (Exception)
             {
@@ -19,9 +19,9 @@ namespace DataSource.Db
             }
         }
 
-        private void SetConnectionString()
+        private void GetConnectionString()
         {
-            DataSourceConnectionString =
+            ProgramsDbConnectionString =
                 ConfigurationManager.ConnectionStrings["DbConnectionString"].ConnectionString;
         }
     }

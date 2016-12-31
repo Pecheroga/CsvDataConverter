@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Data;
 using System.Data.SqlClient;
 using DataSource.Base;
 
@@ -14,7 +13,6 @@ namespace DataSource.Db
     public class FromDb : ConnectionString, IFromDb
     {
         private readonly ObservableCollection<Program> _programs;
-        private SqlConnection _connection;
 
         public FromDb()
         {
@@ -23,29 +21,29 @@ namespace DataSource.Db
 
         public void FillPrograms()
         {
-            TryToSetConnectionString();
-            using (_connection = new SqlConnection(DataSourceConnectionString))
-            using (var adapter = new SqlDataAdapter("SELECT * FROM Programs", _connection))
+            TryToGetConnectionString();
+            using (var connection = new SqlConnection(ProgramsDbConnectionString))
             {
-                var programs = new DataTable();
-                adapter.Fill(programs);
-
-                for (var i = 0; i < programs.Rows.Count; i++)
+                connection.Open();
+                const string query = "SELECT * FROM Programs";
+                using (var command = new SqlCommand(query, connection))
+                using (var dataReader = command.ExecuteReader())
                 {
-                    var row = programs.Rows[i];
-                    var program = new Program
+                    while (dataReader.Read())
                     {
-                        Id = (int)row["Id"],
-                        Title = row["Title"].ToString(),
-                        StartLabel = row["StartLabel"].ToString(),
-                        EndLabel = row["EndLabel"].ToString(),
-                        Lang = row["Lang"].ToString(),
-                        Author = row["Author"].ToString(),
-                        Presenter = row["Presenter"].ToString()
-                    };
-
-                    _programs.Add(program);
-                }
+                        var program = new Program
+                        {
+                            Id = (int)dataReader["Id"],
+                            Title = dataReader["Title"].ToString(),
+                            StartLabel = dataReader["StartLabel"].ToString(),
+                            EndLabel = dataReader["EndLabel"].ToString(),
+                            Lang = dataReader["Lang"].ToString(),
+                            Author = dataReader["Author"].ToString(),
+                            Presenter = dataReader["Presenter"].ToString()
+                        };
+                        _programs.Add(program);
+                    }    
+                }    
             }
         }
 
