@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,24 +12,25 @@ namespace Converter.Mvvm.ViewModel.Settings
         protected IToDb ToDb;
         protected readonly ISettingsViewModel SettingsViewModel;
 
+        private bool EditStarted { get; set; }
+
         private BindingGroup _editBindingGroup;
         public BindingGroup EditBindingGroup
         {
             get { return _editBindingGroup; }
-            set
+            private set
             {
                 _editBindingGroup = value;
                 OnPropertyChanged();
             }
         }
-
-        private bool EditStarted { get; set; }
+        
         public Visibility AddBtmVisibility { get; set; }
         public Visibility EditBtmVisibility { get; set; }
 
-        public RelayCommand OkCommand { get; set; }
-        public RelayCommand ApplyCommand { get; set; }
-        public RelayCommand UndoCommand { get; set; }
+        public RelayCommand OkCommand { get; private set; }
+        public RelayCommand ApplyCommand { get; private set; }
+        public RelayCommand UndoCommand { get; private set; }
 
         public DialogViewModelBase(ISettingsViewModel settingsViewModel)
         {
@@ -56,9 +56,10 @@ namespace Converter.Mvvm.ViewModel.Settings
 
         private bool CanOk(object obj)
         {
-            return !EditBindingGroup.BindingExpressions.Select(bindingExpression =>
-            bindingExpression.Target as TextBox).Any(textBox =>
-                textBox != null && string.IsNullOrEmpty(textBox.Text));
+            return !EditBindingGroup.
+                BindingExpressions.
+                Select(bindingExpression => bindingExpression.Target as TextBox).
+                Any(textBox => textBox != null && string.IsNullOrEmpty(textBox.Text));
         }
 
         protected virtual void Apply(object obj)
@@ -68,10 +69,11 @@ namespace Converter.Mvvm.ViewModel.Settings
 
         private bool CanApply(object obj)
         {
-            return !EditBindingGroup.BindingExpressions.Select(bindingExpression =>
-                bindingExpression.Target as TextBox).Any(textBox =>
-                    textBox != null && string.IsNullOrEmpty(textBox.Text))
-                    && EditStarted;
+            return !EditBindingGroup.
+                BindingExpressions.
+                Select(bindingExpression => bindingExpression.Target as TextBox).
+                Any(textBox => textBox != null && string.IsNullOrEmpty(textBox.Text))
+                && EditStarted;
         }
 
         private void Undo(object obj)

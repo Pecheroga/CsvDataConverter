@@ -26,7 +26,7 @@ namespace Converter.Mvvm.ViewModel
         public string NameOfChosenFile
         {
             get { return _nameOfChosenFile; }
-            set
+            private set
             {
                 _nameOfChosenFile = value;
                 OnPropertyChanged();
@@ -37,7 +37,7 @@ namespace Converter.Mvvm.ViewModel
         public bool IsBrowseButtonFocused
         {
             get { return _isBrowseButtonFocused; }
-            set
+            private set
             {
                 _isBrowseButtonFocused = value;
                 OnPropertyChanged();
@@ -48,7 +48,7 @@ namespace Converter.Mvvm.ViewModel
         public Visibility ExcelDataContainerVisability
         {
             get { return _excelDataContainerVisability; }
-            set
+            private set
             {
                 _excelDataContainerVisability = value;
                 OnPropertyChanged();
@@ -59,7 +59,7 @@ namespace Converter.Mvvm.ViewModel
         public Visibility SucessfulEndImgVisability
         {
             get { return _sucessfulEndImgVisability; }
-            set
+            private set
             {
                 _sucessfulEndImgVisability = value;
                 OnPropertyChanged();
@@ -69,45 +69,44 @@ namespace Converter.Mvvm.ViewModel
         public int ValueProgressBar
         {
             get { return _mainModel.ValueProgressBar; }
-            set { _mainModel.ValueProgressBar = value; }
+            private set { _mainModel.ValueProgressBar = value; }
         }
 
         public int PercentValueProgressBar
         {
             get { return _mainModel.PercentValueProgressBar; }
-            set { _mainModel.PercentValueProgressBar = value; }
+            private set { _mainModel.PercentValueProgressBar = value; }
         }
 
         public double MaximumProgressBar
         {
             get { return _mainModel.MaximumProgressBar; }
-            set { _mainModel.MaximumProgressBar = value; }
+            private set { _mainModel.MaximumProgressBar = value; }
         }
 
         public string NameOfOutputFile
         {
             get { return _mainModel.NameOfOutputFile; }
-            set { _mainModel.NameOfOutputFile = value; }
         }
 
         private SolidColorBrush _colorOfProgressText;
         public SolidColorBrush ColorOfProgressText
         {
             get { return _colorOfProgressText; }
-            set
+            private set
             {
                 _colorOfProgressText = value;
                 OnPropertyChanged();
             }
         }
 
-        public RelayCommand BrowseCommand { get; set; }
-        public RelayCommand StartCommand { get; set; }
-        public RelayCommand CancelCommand { get; set; }
-        public RelayCommand OpenOutputFileCommand { get; set; }
-        public RelayCommand SaveAsCommand { get; set; }
-        public RelayCommand SettingsWindowShowCommand { get; set; }
-        public RelayCommand AboutWindowShowCommand { get; set; }
+        public RelayCommand BrowseCommand { get; private set; }
+        public RelayCommand StartCommand { get; private set; }
+        public RelayCommand CancelCommand { get; private set; }
+        public RelayCommand OpenOutputFileCommand { get; private set; }
+        public RelayCommand SaveAsCommand { get; private set; }
+        public RelayCommand SettingsWindowShowCommand { get; private set; }
+        public RelayCommand AboutWindowShowCommand { get; private set; }
 
         public MainViewModel()
         {

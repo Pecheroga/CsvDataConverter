@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using DataSource.Base;
 
 namespace Converter.Mvvm.ViewModel.Settings
@@ -9,15 +8,7 @@ namespace Converter.Mvvm.ViewModel.Settings
         private Program _selectedProgram;
         public Program SelectedProgram
         {
-            get
-            {
-                return _selectedProgram = SettingsViewModel.SelectedProgram;
-            }
-            set
-            {
-                _selectedProgram = value;
-                OnPropertyChanged();
-            }
+            get { return _selectedProgram = SettingsViewModel.SelectedProgram; }
         }
 
         public EditDialogViewModel(ISettingsViewModel settingsViewModel)

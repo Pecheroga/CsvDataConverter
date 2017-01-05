@@ -6,8 +6,8 @@ namespace Converter.Mvvm.ViewModel
 {
     internal class ViewModelBase : Notifier
     {
-        public string WindowTitle { get; set; }
-        public RelayCommand CloseWindowCommand { get; set; }
+        public string WindowTitle { get; protected set; }
+        public RelayCommand CloseWindowCommand { get; protected set; }
 
         public Window MainWindowOfApplication
         {

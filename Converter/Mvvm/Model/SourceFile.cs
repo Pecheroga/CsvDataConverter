@@ -18,7 +18,7 @@ namespace Converter.Mvvm.Model
         private readonly ExcelAppFromFile _sourceExcelApp;
         private readonly Worksheet _sourceFirstWorksheet;
         private bool _toNextRowWithoutSave;
-        private readonly int _countColumnsOfFirstWorksheet;
+        private readonly int _columnsCountOfFirstWorksheet;
         private readonly ArrayList _sourceFileColumnNames;
         
         public int RowsCountOfFirstWorksheet { get; set; }
@@ -33,7 +33,7 @@ namespace Converter.Mvvm.Model
             _sourceFirstWorksheet = _sourceExcelApp.GetFirstWorksheet();
             SetRowsCountOfFirstWorksheet();
             _sourceFileColumnNames = new ArrayList();
-            _countColumnsOfFirstWorksheet = _sourceFirstWorksheet.UsedRange.Columns.Count;
+            _columnsCountOfFirstWorksheet = _sourceFirstWorksheet.UsedRange.Columns.Count;
             TryParseColumnNamesFromSourceFile();
         }
 
@@ -58,7 +58,7 @@ namespace Converter.Mvvm.Model
 
         private void ParseColumnNamesFromSourceFile()
         {
-            for (var parsingColumn = 1; parsingColumn <= _countColumnsOfFirstWorksheet; parsingColumn++)
+            for (var parsingColumn = 1; parsingColumn <= _columnsCountOfFirstWorksheet; parsingColumn++)
             {
                 var usedRange = _sourceFirstWorksheet.UsedRange;
                 var cells = usedRange.Cells;
@@ -110,7 +110,7 @@ namespace Converter.Mvvm.Model
         private void FillNewSourceProgramFrom(int parsingRow)
         {
             _newSourceProgram = new SourceProgram();
-            for (var parsingColumn = 1; parsingColumn <= _countColumnsOfFirstWorksheet; parsingColumn++)
+            for (var parsingColumn = 1; parsingColumn <= _columnsCountOfFirstWorksheet; parsingColumn++)
             {
                 var usedRange = _sourceFirstWorksheet.UsedRange;
                 var cells = usedRange.Cells;

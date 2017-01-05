@@ -200,7 +200,7 @@
                             Grid.Row="0"
                             Grid.Column="1"
                             Style="{StaticResource TxbFileNameStyle}"
-                            Text="{Binding NameOfOutputFile}" />
+                            Text="{Binding NameOfOutputFile, Mode=OneWay}" />
                         <ScrollViewer
                             Grid.Row="1"
                             Grid.Column="0"

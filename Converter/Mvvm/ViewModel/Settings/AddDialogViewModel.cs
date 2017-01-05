@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using DataSource.Base;
@@ -8,7 +7,8 @@ namespace Converter.Mvvm.ViewModel.Settings
 {
     internal sealed class AddDialogViewModel : DialogViewModelBase
     {
-        public Program SelectedProgram { get; set; }
+        private readonly Program _selectedProgram = null;
+        public Program SelectedProgram { get { return _selectedProgram; } }
 
         public AddDialogViewModel(ISettingsViewModel settingsViewModel)
             : base(settingsViewModel)

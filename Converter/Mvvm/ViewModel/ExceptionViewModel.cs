@@ -2,7 +2,7 @@
 {
     internal sealed class ExceptionViewModel : ViewModelBase
     {
-        public string ExceptionText { get; set; }
+        public string ExceptionText { get; private set; }
 
         public ExceptionViewModel() { }
 
