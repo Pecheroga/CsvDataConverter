@@ -116,7 +116,7 @@
                             Command="{Binding BrowseCommand}"
                             Content="Browse"
                             Style="{StaticResource BtnStyle}"
-                            ToolTip="Open file and start converting " />
+                            ToolTip="Browse file (Ctrl+B)" />
                         <TextBox Style="{StaticResource TxbFileNameStyle}" Text="{Binding NameOfChosenFile}" />
                     </StackPanel>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
@@ -125,13 +125,13 @@
                             Command="{Binding StartCommand}"
                             Content="Start"
                             Style="{StaticResource BtnStyle}"
-                            ToolTip="Cancel converting" />
+                            ToolTip="Start converting (Ctrl+R)" />
                         <Button
                             Name="CancelBtn"
                             Command="{Binding CancelCommand}"
                             Content="Cancel"
                             Style="{StaticResource BtnStyle}"
-                            ToolTip="Cancel converting" />
+                            ToolTip="Cancel converting (Ctrl+C)" />
                         <Grid Width="420" Height="55">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />

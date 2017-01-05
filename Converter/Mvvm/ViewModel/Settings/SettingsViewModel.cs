@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using Converter.Helpers;
@@ -93,21 +92,9 @@ namespace Converter.Mvvm.ViewModel.Settings
         {
             return Task.Run(() =>
             {
-                TryToFillPrograms();
+                _fromDb.FillPrograms();
                 _programs = _fromDb.GetPrograms();
             });
-        }
-
-        private void TryToFillPrograms()
-        {
-            try
-            {
-                _fromDb.FillPrograms();
-            }
-            catch (Exception exception)
-            {
-                ExceptionHandler(exception);
-            }
         }
 
         private void SetControlsLoadedState()

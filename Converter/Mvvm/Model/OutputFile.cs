@@ -1,9 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using DataSource.Base;
 using Microsoft.Office.Interop.Excel;
-using Microsoft.Win32;
 
 namespace Converter.Mvvm.Model
 {
@@ -14,12 +12,7 @@ namespace Converter.Mvvm.Model
         private ObservableCollection<OutputProgram> _outputPrograms;
         private readonly ExcelAppBlank _outputExcelApp;
         private readonly Worksheet _outputFirstWorksheet;
-
-        public ExcelAppBlank OutputExcelApp
-        {
-            get { return _outputExcelApp; }
-        }
-
+        
         public string NameOfOutputFile
         {
             get { return _nameOfOutputFile; }
@@ -100,25 +93,6 @@ namespace Converter.Mvvm.Model
         private void AutoFitCells()
         {
             _outputFirstWorksheet.UsedRange.Columns.AutoFit();
-        }
-
-        public void SaveAsCopyOfOutputFile()
-        {
-            var outputFileNameWithoutExtension = Path.GetFileNameWithoutExtension(_nameOfOutputFile);
-            var saveDialog = new SaveFileDialog
-            {
-                FileName = outputFileNameWithoutExtension,
-                DefaultExt = ".xlsx",
-                Filter = "*.xlsx|*.xlsx"
-            };
-            var saveDialogResult = saveDialog.ShowDialog().GetValueOrDefault();
-            if (!saveDialogResult) return;
-            File.Copy(_nameOfOutputFile, saveDialog.FileName);
-        }
-
-        public void Open()
-        {
-            Process.Start(_nameOfOutputFile);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Converter.Mvvm.ViewModel.Settings
 
         public DialogViewModelBase(ISettingsViewModel settingsViewModel)
         {
-            TryConnectToDb();
+            ToDb = new ToDb();
             SettingsViewModel = settingsViewModel;
             EditBindingGroup = new BindingGroup
             {
@@ -47,18 +47,6 @@ namespace Converter.Mvvm.ViewModel.Settings
 
             SelectAllBehavior.TxtbEditStarted += _selectAllBehavior_TxtbEditStarted;
             EditStarted = false;
-        }
-
-        private void TryConnectToDb()
-        {
-            try
-            {
-                ToDb = new ToDb();
-            }
-            catch (Exception exception)
-            {
-                ExceptionHandler(exception);
-            }
         }
 
         protected virtual void Ok(object parameter)

@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using Converter.Helpers;
@@ -112,7 +114,7 @@ namespace Converter.Mvvm.ViewModel
             BrowseCommand = new RelayCommand(BrowseSourceFile, CanBrowseSourceFile);
             StartCommand = new RelayCommand(StartAsyncParsing, CanStartAsyncParsing);
             CancelCommand = new RelayCommand(CancelParsing, CanCancelParsing);
-            OpenOutputFileCommand = new RelayCommand(OpenOutputFile, CanOpenOutputExcel);
+            OpenOutputFileCommand = new RelayCommand(OpenOutputFile, CanOpenOutputFile);
             SaveAsCommand = new RelayCommand(SaveAs, CanSaveAs);
             SettingsWindowShowCommand = new RelayCommand(SettingsWindowShow);
             AboutWindowShowCommand = new RelayCommand(AboutWindowShow);
@@ -128,20 +130,7 @@ namespace Converter.Mvvm.ViewModel
         {
             OnPropertyChanged(e.PropertyName);
         }
-
-        private void ParsingInSeparateThread_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
-        {
-            var isParsingCanceled = e.Cancelled;
-            if (isParsingCanceled)
-            {
-                SetControlsDefaultState();
-            }
-            else
-            {
-                SetControlsStateThenParsingComleted();
-            }
-        }
-
+        
         private void SetControlsDefaultState()
         {
             ColorOfProgressText = Brushes.Azure;
@@ -152,17 +141,7 @@ namespace Converter.Mvvm.ViewModel
             ExcelDataContainerVisability = Visibility.Hidden;
             SucessfulEndImgVisability = Visibility.Hidden;
         }
-
-        private void SetControlsStateThenParsingComleted()
-        {
-            ColorOfProgressText = Brushes.LightGreen;
-            IsBrowseButtonFocused = true;
-            ExcelDataContainerVisability = Visibility.Visible;
-            SucessfulEndImgVisability = Visibility.Visible;
-            _canSaveAs = true;
-            _canOpenOutputFile = true;
-        }
-
+        
         private void BrowseSourceFile(object parameter)
         {
             var chooseFileDialog = new OpenFileDialog
@@ -217,7 +196,16 @@ namespace Converter.Mvvm.ViewModel
 
         private void SaveAs(object parameter)
         {
-            _mainModel.TrySaveAsCopyOfOutputFile();
+            var outputFileNameWithoutExtension = Path.GetFileNameWithoutExtension(NameOfOutputFile);
+            var saveDialog = new SaveFileDialog
+            {
+                FileName = outputFileNameWithoutExtension,
+                DefaultExt = ".xlsx",
+                Filter = "*.xlsx|*.xlsx"
+            };
+            var saveDialogResult = saveDialog.ShowDialog().GetValueOrDefault();
+            if (!saveDialogResult) return;
+            File.Copy(NameOfOutputFile, saveDialog.FileName);
         }
 
         private bool CanSaveAs(object parameter)
@@ -227,10 +215,10 @@ namespace Converter.Mvvm.ViewModel
 
         private void OpenOutputFile(object parameter)
         {
-            _mainModel.TryOpenOutputFile();
+            Process.Start(NameOfOutputFile);
         }
 
-        private bool CanOpenOutputExcel(object parameter)
+        private bool CanOpenOutputFile(object parameter)
         {
             return _canOpenOutputFile;
         }
@@ -255,6 +243,28 @@ namespace Converter.Mvvm.ViewModel
                 Icon = MainWindowOfApplication.Icon
             };
             aboutView.ShowDialog();
+        }
+
+        private void ParsingInSeparateThread_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                SetControlsStateThenParsingComleted();
+            }
+            else
+            {
+                SetControlsDefaultState();
+            }
+        }
+
+        private void SetControlsStateThenParsingComleted()
+        {
+            ColorOfProgressText = Brushes.LightGreen;
+            IsBrowseButtonFocused = true;
+            ExcelDataContainerVisability = Visibility.Visible;
+            SucessfulEndImgVisability = Visibility.Visible;
+            _canSaveAs = true;
+            _canOpenOutputFile = true;
         }
     }
 }

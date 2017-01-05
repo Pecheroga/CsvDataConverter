@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using Converter.Helpers;
+﻿using Converter.Helpers;
 using Microsoft.Office.Interop.Excel;
 using Application = Microsoft.Office.Interop.Excel.Application;
 
@@ -10,14 +7,14 @@ namespace Converter.Mvvm.Model
     internal class ExcelAppBase
     {
         protected Application ExcelApp;
+        protected Workbooks Workbooks;
         protected Workbook Workbook;
         private Worksheet _firstWorksheet;
-        private int _instanceOfExcelApp;
 
         public ExcelAppBase()
         {
             CreateNewExcelApp();
-            _instanceOfExcelApp = 1;
+            Workbooks = ExcelApp.Workbooks;
         }
 
         private void CreateNewExcelApp()
@@ -38,7 +35,8 @@ namespace Converter.Mvvm.Model
 
         protected void SetFirstWorksheet()
         {
-            _firstWorksheet = (Worksheet)Workbook.Worksheets.Item[1];
+            var worksheets = Workbook.Worksheets;
+            _firstWorksheet = (Worksheet)worksheets.Item[1];
             if (_firstWorksheet != null) return;
             throw new ExcelException(this, "Could not create Worksheet");
         }
@@ -57,27 +55,8 @@ namespace Converter.Mvvm.Model
 
         public void QuitExcelApp()
         {
-            if (_instanceOfExcelApp == 0) return;
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            Marshal.FinalReleaseComObject(_firstWorksheet);
-            Workbook.Close(Type.Missing, Type.Missing, Type.Missing);
-            Marshal.FinalReleaseComObject(Workbook);
-            QuitExcelAppAsync();
-        }
-
-        private async void QuitExcelAppAsync()
-        {
-            await QuitExcelAppTask();
-            _instanceOfExcelApp = Marshal.FinalReleaseComObject(ExcelApp);
-        }
-
-        private Task QuitExcelAppTask()
-        {
-            return Task.Run(() =>
-            {
-                ExcelApp.Quit();
-            });
+            Workbook.Close();
+            ExcelApp.Quit();
         }
     }
 
@@ -91,7 +70,7 @@ namespace Converter.Mvvm.Model
 
         protected override void AddWorkbook()
         {
-            Workbook = ExcelApp.Workbooks.Add();
+            Workbook = Workbooks.Add();
             base.AddWorkbook();
         }
     }
@@ -109,7 +88,7 @@ namespace Converter.Mvvm.Model
 
         protected override void AddWorkbook()
         {
-            Workbook = ExcelApp.Workbooks.Open(
+            Workbook = Workbooks.Open(
                 _nameOfChosenFile, // File name
                 0, // UpdateLink
                 true, // ReadOnly

@@ -19,24 +19,12 @@ namespace Converter.Mvvm.ViewModel.Settings
 
         protected override void Ok(object obj)
         {
-            TryRemoveProgram();
+            ToDb.Remove(SettingsViewModel.SelectedProgram);
+            SettingsViewModel.Programs.RemoveAt(_removeIndex);
             SetNewSelectedIndex();
             base.Ok(obj);
         }
-
-        private void TryRemoveProgram()
-        {
-            try
-            {
-                ToDb.Remove(SettingsViewModel.SelectedProgram);
-                SettingsViewModel.Programs.RemoveAt(_removeIndex);
-            }
-            catch (Exception exception)
-            {
-                ExceptionHandler(exception);
-            }
-        }
-
+        
         private void SetNewSelectedIndex()
         {
             if (_selectedIndex != 0)

@@ -9,7 +9,6 @@ namespace Converter.Mvvm.ViewModel.Settings
     internal sealed class AddDialogViewModel : DialogViewModelBase
     {
         public Program SelectedProgram { get; set; }
-        private Program _program;
 
         public AddDialogViewModel(ISettingsViewModel settingsViewModel)
             : base(settingsViewModel)
@@ -33,7 +32,7 @@ namespace Converter.Mvvm.ViewModel.Settings
                 ? 0 
                 : SettingsViewModel.Programs.Max(p => p.Id);
             var newProgramId = maxIdInPrograms + 1;
-            _program = new Program
+            var program = new Program
             {
                 Id = newProgramId,
                 Title = ((TextBox)EditBindingGroup.BindingExpressions[0].Target).Text,
@@ -43,20 +42,8 @@ namespace Converter.Mvvm.ViewModel.Settings
                 Author = ((TextBox)EditBindingGroup.BindingExpressions[4].Target).Text,
                 Presenter = ((TextBox)EditBindingGroup.BindingExpressions[5].Target).Text
             };
-            TryAddProgram();
-        }
-
-        private void TryAddProgram()
-        {
-            try
-            {
-                ToDb.Add(_program);
-                SettingsViewModel.Programs.Add(_program);
-            }
-            catch (Exception exception)
-            {
-                ExceptionHandler(exception);
-            }
+            ToDb.Add(program);
+            SettingsViewModel.Programs.Add(program);
         }
     }
 }

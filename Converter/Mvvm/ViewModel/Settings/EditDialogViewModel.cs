@@ -43,19 +43,7 @@ namespace Converter.Mvvm.ViewModel.Settings
         private void Update()
         {
             EditBindingGroup.CommitEdit();
-            TryUpdateSelectedProgram();
-        }
-
-        private void TryUpdateSelectedProgram()
-        {
-            try
-            {
-                ToDb.Update(_selectedProgram);
-            }
-            catch (Exception exception)
-            {
-                ExceptionHandler(exception);
-            }
+            ToDb.Update(_selectedProgram);
         }
     }
 }

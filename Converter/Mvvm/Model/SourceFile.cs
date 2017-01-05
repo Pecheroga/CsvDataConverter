@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Converter.Helpers;
 using DataSource.Db;
 using DataSource.Base;
 using Microsoft.Office.Interop.Excel;
@@ -19,13 +20,8 @@ namespace Converter.Mvvm.Model
         private bool _toNextRowWithoutSave;
         private readonly int _countColumnsOfFirstWorksheet;
         private readonly ArrayList _sourceFileColumnNames;
-
-        public ExcelAppFromFile SourceExcelApp
-        {
-            get { return _sourceExcelApp; }
-        }
-
-        public int CountRowsOfFirstWorksheet { get; set; }
+        
+        public int RowsCountOfFirstWorksheet { get; set; }
 
         public SourceFile(string nameOfChosenFile)
         {
@@ -35,10 +31,17 @@ namespace Converter.Mvvm.Model
             _programs = fromDb.GetPrograms();
             _sourceExcelApp = new ExcelAppFromFile(nameOfChosenFile);
             _sourceFirstWorksheet = _sourceExcelApp.GetFirstWorksheet();
-            CountRowsOfFirstWorksheet = _sourceFirstWorksheet.UsedRange.Rows.Count;
+            SetRowsCountOfFirstWorksheet();
             _sourceFileColumnNames = new ArrayList();
             _countColumnsOfFirstWorksheet = _sourceFirstWorksheet.UsedRange.Columns.Count;
             TryParseColumnNamesFromSourceFile();
+        }
+
+        private void SetRowsCountOfFirstWorksheet()
+        {
+            var usedRange = _sourceFirstWorksheet.UsedRange;
+            var rows = usedRange.Rows;
+            RowsCountOfFirstWorksheet = rows.Count;
         }
 
         private void TryParseColumnNamesFromSourceFile()
@@ -49,8 +52,7 @@ namespace Converter.Mvvm.Model
             }
             catch (Exception)
             {
-                _sourceExcelApp.QuitExcelApp();
-                throw new Exception("Fail to parsing column names in the source file.");
+                throw new ExcelException(_sourceExcelApp, "Fail to parsing column names in the source file");
             }
         }
 
@@ -58,20 +60,23 @@ namespace Converter.Mvvm.Model
         {
             for (var parsingColumn = 1; parsingColumn <= _countColumnsOfFirstWorksheet; parsingColumn++)
             {
-                var columnNameCell = _sourceFirstWorksheet.UsedRange.Cells[1, parsingColumn] as Range;
+                var usedRange = _sourceFirstWorksheet.UsedRange;
+                var cells = usedRange.Cells;
+                var columnNameCell = cells[1, parsingColumn] as Range;
                 if (columnNameCell == null) continue;
-                var columnName = columnNameCell.Value2.ToString();
+                var value2 = columnNameCell.Value2;
+                var columnName = value2.ToString();
                 _sourceFileColumnNames.Add(columnName);
             }
         }
 
         public void Start(BackgroundWorker parsingInSeparateThread)
         {
-            for (var parsingRow = 2; parsingRow <= CountRowsOfFirstWorksheet; parsingRow++)
+            for (var parsingRow = 2; parsingRow <= RowsCountOfFirstWorksheet; parsingRow++)
             {
                 if (parsingInSeparateThread.CancellationPending)
                 {
-                    throw new Exception("Parsing in canceled by User");
+                    throw new ExcelException(_sourceExcelApp, "Parsing in canceled by User");
                 }
                 parsingInSeparateThread.ReportProgress(parsingRow);
                 CheckFormatStartTimeIn(parsingRow);
@@ -88,13 +93,17 @@ namespace Converter.Mvvm.Model
             var startTimeColumnIndex = _sourceFileColumnNames.IndexOf("Start Time");
             if (startTimeColumnIndex == -1) return;
             var startTimeCellColumnIndex = startTimeColumnIndex + 1;
-            var startTimeCell = _sourceFirstWorksheet.UsedRange.Cells[parsingRow, startTimeCellColumnIndex] as Range;
+            var usedRange = _sourceFirstWorksheet.UsedRange;
+            var cells = usedRange.Cells;
+            var startTimeCell = cells[parsingRow, startTimeCellColumnIndex] as Range;
             if (startTimeCell == null) return;
-            var startTime = startTimeCell.Value2.ToString();
+            var value2 = startTimeCell.Value2;
+            var startTime = value2.ToString();
             if (startTime.Contains("(1)"))
             {
-                throw new Exception("The Start Time column of source file " +
-                                    "can't contains next day symblol \"(1)\"");
+                throw new ExcelException(
+                    _sourceExcelApp, 
+                    "The Start Time column of source file can't contains next day symblol \"(1)\"");
             }
         }
 
@@ -103,7 +112,9 @@ namespace Converter.Mvvm.Model
             _newSourceProgram = new SourceProgram();
             for (var parsingColumn = 1; parsingColumn <= _countColumnsOfFirstWorksheet; parsingColumn++)
             {
-                var parsingCell = _sourceFirstWorksheet.UsedRange.Cells[parsingRow, parsingColumn] as Range;
+                var usedRange = _sourceFirstWorksheet.UsedRange;
+                var cells = usedRange.Cells;
+                var parsingCell = cells[parsingRow, parsingColumn] as Range;
                 if (parsingCell == null) continue;
 
                 var columnName = (string)_sourceFileColumnNames[parsingColumn - 1];
@@ -114,7 +125,8 @@ namespace Converter.Mvvm.Model
                         _newSourceProgram.SourceStartTime = parsingCell.Value2;
                         break;
                     case "Title":
-                        _newSourceProgram.SourceTitle = parsingCell.Value2.ToString();
+                        var value2 = parsingCell.Value2;
+                        _newSourceProgram.SourceTitle = value2.ToString();
                         break;
                     case "Duration":
                         var sourceDuration = parsingCell.Value2;
@@ -171,8 +183,10 @@ namespace Converter.Mvvm.Model
             }
             catch (Exception)
             {
-                throw new Exception("Error while merging the \"" + program.Title + "\".\n " +
-                                        "Check the Start and End Labels in the Settings.");
+                throw new ExcelException(
+                    _sourceExcelApp,
+                    "Error while merging the \"" + program.Title + "\".\n " +
+                    "Check the Start and End Labels in the Settings.");
             }
         }
 

@@ -9,10 +9,6 @@ namespace Converter.Mvvm.Model
     internal sealed class MainModel : Notifier
     {
         private string _nameOfChosenFile;
-        private SourceFile _sourceFile;
-        private OutputFile _outputFile;
-        private Exception _exception;
-        private CancelEventArgs _parsingState;
 
         public BackgroundWorker ParsingInSeparateThread { get; set; }
 
@@ -81,38 +77,27 @@ namespace Converter.Mvvm.Model
             };
             ParsingInSeparateThread.DoWork += ParsingInSeparateThread_DoWork;
             ParsingInSeparateThread.ProgressChanged += ParsingInSeparateThread_ProgressChanged;
-            ParsingInSeparateThread.RunWorkerCompleted += ParsingInSeparateThread_RunWorkerCompleted;
         }
 
         private void ParsingInSeparateThread_DoWork(object sender, DoWorkEventArgs doWorkEventArgs)
         {
+            ParsingInSeparateThread.RunWorkerCompleted += ParsingInSeparateThread_RunWorkerCompleted;
             ResetDataOfPreviousParsing();
             _nameOfChosenFile = (string)doWorkEventArgs.Argument;
-            _parsingState = doWorkEventArgs;
-            TryParseSourceFile();
+            ParseSourceFile();
         }
 
         private void ResetDataOfPreviousParsing()
         {
             OutputPrograms = null;
-            _sourceFile = null;
-            _outputFile = null;
         }
 
-        private void TryParseSourceFile()
+        private void ParseSourceFile()
         {
-            try
-            {
-                _sourceFile = new SourceFile(_nameOfChosenFile);
-                MaximumProgressBar = _sourceFile.CountRowsOfFirstWorksheet;
-                _sourceFile.Start(ParsingInSeparateThread);
-                OutputPrograms = _sourceFile.GetOutputPrograms();
-            }
-            catch (Exception exception)
-            {
-                _exception = exception;
-                ExceptionHandler();
-            }
+             var sourceFile = new SourceFile(_nameOfChosenFile);
+            MaximumProgressBar = sourceFile.RowsCountOfFirstWorksheet;
+            sourceFile.Start(ParsingInSeparateThread);
+            OutputPrograms = sourceFile.GetOutputPrograms();
         }
 
         private void ParsingInSeparateThread_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -123,67 +108,18 @@ namespace Converter.Mvvm.Model
 
         private void ParsingInSeparateThread_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            var isParsingCanceled = e.Cancelled;
-            if (isParsingCanceled) return;
-
-            TrySaveOutputFile();
-            NameOfOutputFile = _outputFile.NameOfOutputFile;
+            if (e.Error != null)
+            {
+                throw new Exception(e.Error.Message);
+            }
+            SaveOutputFile();
         }
 
-        private void TrySaveOutputFile()
+        private void SaveOutputFile()
         {
-            try
-            {
-                _outputFile = new OutputFile(_nameOfChosenFile);
-                _outputFile.SaveOutputFile(OutputPrograms);
-            }
-            catch (Exception exception)
-            {
-                _exception = exception;
-                ExceptionHandler();
-            }
-        }
-
-        public void TrySaveAsCopyOfOutputFile()
-        {
-            try
-            {
-                _outputFile.SaveAsCopyOfOutputFile();
-            }
-            catch (Exception exception)
-            {
-                _exception = exception;
-                ExceptionHandler();
-            }
-        }
-
-        public void TryOpenOutputFile()
-        {
-            try
-            {
-                _outputFile.Open();
-            }
-            catch (Exception exception)
-            {
-                _exception = exception;
-                ExceptionHandler();
-            }
-        }
-
-        private void ExceptionHandler()
-        {
-            if (_sourceFile != null)
-            {
-                _sourceFile.SourceExcelApp.QuitExcelApp();
-            }
-            if (_outputFile != null)
-            {
-                _outputFile.OutputExcelApp.QuitExcelApp();
-            }
-
-            _parsingState.Cancel = true;
-            var myException = new ExceptionWindow(_exception);
-            myException.ShowExceptionWindow();
+            var outputFile = new OutputFile(_nameOfChosenFile);
+            outputFile.SaveOutputFile(OutputPrograms);
+            NameOfOutputFile = outputFile.NameOfOutputFile;
         }
     }
 }
