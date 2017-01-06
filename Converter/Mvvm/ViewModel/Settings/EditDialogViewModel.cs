@@ -15,8 +15,6 @@ namespace Converter.Mvvm.ViewModel.Settings
             : base(settingsViewModel)
         {
             WindowTitle = "Edit Program";
-            AddBtmVisibility = Visibility.Collapsed;
-            EditBtmVisibility = Visibility.Visible;
         }
 
         protected override void Ok(object obj)

@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Converter.Mvvm.View
+namespace Converter.UserControls
 {
     /// <summary>
-    /// Interaction logic for AddEditDialogView.xaml
+    /// Interaction logic for InputFields.xaml
     /// </summary>
-    public partial class AddEditDialogView : Window
+    public partial class InputFields : UserControl
     {
-        public AddEditDialogView()
+        public InputFields()
         {
             InitializeComponent();
         }

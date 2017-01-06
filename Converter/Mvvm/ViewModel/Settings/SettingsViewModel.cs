@@ -108,7 +108,7 @@ namespace Converter.Mvvm.ViewModel.Settings
         private void AddWindowShow(object parameter)
         {
             var addDialogViewModel = new AddDialogViewModel(this);
-            var dialogView = new AddEditDialogView
+            var dialogView = new AddDialogView
             {
                 Owner = MainWindowOfApplication,
                 ShowInTaskbar = false,
@@ -121,7 +121,7 @@ namespace Converter.Mvvm.ViewModel.Settings
         private void EditWindowShow(object parameter)
         {
             var editDialogViewModel = new EditDialogViewModel(this);
-            var dialogView = new AddEditDialogView
+            var dialogView = new EditDialogView
             {
                 Owner = MainWindowOfApplication,
                 ShowInTaskbar = false,

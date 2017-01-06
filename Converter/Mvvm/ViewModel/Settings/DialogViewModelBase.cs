@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Converter.Helpers;
@@ -24,9 +23,6 @@ namespace Converter.Mvvm.ViewModel.Settings
                 OnPropertyChanged();
             }
         }
-        
-        public Visibility AddBtmVisibility { get; set; }
-        public Visibility EditBtmVisibility { get; set; }
 
         public RelayCommand OkCommand { get; private set; }
         public RelayCommand ApplyCommand { get; private set; }

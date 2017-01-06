@@ -78,8 +78,11 @@
     <Compile Include="Mvvm\View\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Mvvm\View\AddEditDialogView.xaml.cs">
-      <DependentUpon>AddEditDialogView.xaml</DependentUpon>
+    <Compile Include="Mvvm\View\AddDialogView.xaml.cs">
+      <DependentUpon>AddDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Mvvm\View\EditDialogView.xaml.cs">
+      <DependentUpon>EditDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Mvvm\View\ExceptionView.xaml.cs">
       <DependentUpon>ExceptionView.xaml</DependentUpon>
@@ -92,6 +95,9 @@
     </Compile>
     <Compile Include="Mvvm\View\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\InputFields.xaml.cs">
+      <DependentUpon>InputFields.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Loading.xaml.cs">
       <DependentUpon>Loading.xaml</DependentUpon>
@@ -111,7 +117,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Mvvm\View\AddEditDialogView.xaml">
+    <Page Include="Mvvm\View\AddDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Mvvm\View\EditDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -128,6 +138,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Mvvm\View\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\InputFields.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

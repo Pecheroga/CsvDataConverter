@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using DataSource.Base;
 
@@ -14,8 +13,6 @@ namespace Converter.Mvvm.ViewModel.Settings
             : base(settingsViewModel)
         {
             WindowTitle = "Add Program";
-            AddBtmVisibility = Visibility.Visible;
-            EditBtmVisibility = Visibility.Collapsed;
         }
 
         protected override void Ok(object parameter)
