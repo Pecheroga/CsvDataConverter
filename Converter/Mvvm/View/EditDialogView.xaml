@@ -5,10 +5,7 @@
     xmlns:helpers="clr-namespace:Converter.Helpers"
     xmlns:userControls="clr-namespace:Converter.UserControls"
     Title="{Binding WindowTitle}"
-    Height="150"
-    MinWidth="800"
-    Background="#FF2E2E2E"
-    SizeToContent="WidthAndHeight"
+    Style="{StaticResource WinAddEditStyle}"
     WindowStartupLocation="CenterOwner">
     <Window.InputBindings>
         <KeyBinding Key="Enter" Command="{Binding OkCommand}" />
@@ -28,16 +25,11 @@
         <ItemsControl
             Name="EditItc"
             Grid.Row="0"
-            Margin="5"
             BindingGroup="{Binding EditBindingGroup}"
-            Focusable="False"
             ItemTemplate="{StaticResource EditDataTemplate}"
-            ItemsSource="{Binding SelectedProgram, Converter={StaticResource SelectedProgramToListConverter}}" />
-        <StackPanel
-            Grid.Row="1"
-            Margin="5"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal">
+            ItemsSource="{Binding SelectedProgram, Converter={StaticResource SelectedProgramToListConverter}}"
+            Style="{StaticResource ItmCtrlStyle}" />
+        <StackPanel Grid.Row="1" Style="{StaticResource StckPnlInputBtnStyle}">
             <Button
                 Command="{Binding OkCommand}"
                 Content="Ok"
@@ -46,17 +38,17 @@
             <Button
                 Command="{Binding CloseWindowCommand}"
                 Content="Cancel"
-                Style="{StaticResource BtnStyle}"
-                ToolTip="Cancel adding" />
+                Style="{StaticResource BtnBaseStyle}"
+                ToolTip="Cancel" />
             <Button
                 Command="{Binding ApplyCommand}"
                 Content="Apply"
-                Style="{StaticResource BtnStyle}"
+                Style="{StaticResource BtnBaseStyle}"
                 ToolTip="Apply all changes without closing the window" />
             <Button
                 Command="{Binding UndoCommand}"
                 Content="Undo"
-                Style="{StaticResource BtnStyle}"
+                Style="{StaticResource BtnBaseStyle}"
                 ToolTip="Reset all changes" />
         </StackPanel>
     </Grid>

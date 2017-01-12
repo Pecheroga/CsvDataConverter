@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="MainWinBg">#FF2E2E2E</SolidColorBrush>
+    <SolidColorBrush x:Key="MainTextFg">Azure</SolidColorBrush>
+    <SolidColorBrush x:Key="IsFocusedFg">Black</SolidColorBrush>
+    <SolidColorBrush x:Key="IsKeyboardFocused">Chartreuse</SolidColorBrush>
+    <SolidColorBrush x:Key="TbxBg">DimGray</SolidColorBrush>
+    <SolidColorBrush x:Key="TbxIsFocusedBg">AliceBlue</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnBg">#FF586780</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnIsMouseOverBg">#FF6D7A91</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnIsNotEnabledFg">LightGray</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnIsNotEnabledBg">GhostWhite</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnOkFg">MediumSpringGreen</SolidColorBrush>
+    <SolidColorBrush x:Key="DtgBg">DarkGray</SolidColorBrush>
+    <SolidColorBrush x:Key="DtgHeaderBg">#FF555555</SolidColorBrush>
+    <SolidColorBrush x:Key="DtgCellBg">Gray</SolidColorBrush>
+    <SolidColorBrush x:Key="DtgCellIsSelectedBg">AliceBlue</SolidColorBrush>
+    <SolidColorBrush x:Key="DtgRowHeaderBg">#FF586780</SolidColorBrush>
+    <SolidColorBrush x:Key="MenuBg">#FF424242</SolidColorBrush>
+    <SolidColorBrush x:Key="MenuItemBg">#1b1b1b</SolidColorBrush>
+    <SolidColorBrush x:Key="MenuItemBorder">DimGray</SolidColorBrush>
+    <SolidColorBrush x:Key="MenuItemIsHighLightBg">#627390</SolidColorBrush>
+    <SolidColorBrush x:Key="MenuItemIsNotEnabledFg">Gray</SolidColorBrush>
+    <SolidColorBrush x:Key="ScrBrFg">LightGray</SolidColorBrush>
+    <SolidColorBrush x:Key="ScrBrBg">DarkGray</SolidColorBrush>
+    <SolidColorBrush x:Key="RunWarningFb">Red</SolidColorBrush>
+    <SolidColorBrush x:Key="BrdrContainerOfOutputDtgBd">DimGray</SolidColorBrush>
+</ResourceDictionary>

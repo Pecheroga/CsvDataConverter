@@ -4,12 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:viewModel="clr-namespace:Converter.Mvvm.ViewModel"
     Title="{Binding WindowTitle}"
-    Width="350"
-    Height="120"
-    Background="#FF2E2E2E"
     DataContext="{DynamicResource ExceptionViewModel}"
     FocusManager.FocusedElement="{Binding ElementName=CloseBtn}"
     SizeToContent="Height"
+    Style="{StaticResource WinInformStyle}"
     WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <viewModel:ExceptionViewModel x:Key="ExceptionViewModel" />
@@ -23,20 +21,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock
-            Grid.Row="0"
-            HorizontalAlignment="Center"
-            FontWeight="Bold"
-            Foreground="Azure">
+        <TextBlock Grid.Row="0" Style="{StaticResource TxblH2TextStyle}">
             Exception occurs:
         </TextBlock>
         <TextBlock
             Grid.Row="1"
-            Margin="5,0,5,5"
-            Padding="0"
             HorizontalAlignment="Center"
-            Foreground="Azure"
-            TextWrapping="Wrap">
+            Style="{StaticResource TxblSimpleTextStyle}">
             <Run Text="{Binding ExceptionText}" />
         </TextBlock>
         <StackPanel
@@ -48,8 +39,7 @@
                 Name="CloseBtn"
                 Command="{Binding CloseWindowCommand}"
                 Content="Close"
-                Foreground="MediumSpringGreen"
-                Style="{StaticResource BtnStyle}"
+                Style="{StaticResource BtnOkStyle}"
                 ToolTip="Close" />
         </StackPanel>
     </Grid>

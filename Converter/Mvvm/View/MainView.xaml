@@ -9,9 +9,9 @@
     Title="CSV Converter"
     Width="750"
     Height="770"
-    Background="#FF2E2E2E"
     DataContext="{DynamicResource MainViewModel}"
     Icon="../../Images/logo.png"
+    Style="{StaticResource WinMainStyle}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.Resources>
@@ -88,10 +88,7 @@
                 Header="_About"
                 InputGestureText="" />
         </Menu>
-        <Border
-            Grid.Row="1"
-            BorderBrush="Black"
-            BorderThickness="0">
+        <Border Grid.Row="1">
             <Grid HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -105,82 +102,86 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <StackPanel
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Name="BrowseBtn"
                         Grid.Row="0"
-                        Margin="0,5"
-                        HorizontalAlignment="Left"
-                        Orientation="Horizontal">
-                        <Button
-                            Name="BrowseBtn"
-                            helpers:FocusExtension.IsFocused="{Binding IsBrowseButtonFocused}"
-                            Command="{Binding BrowseCommand}"
-                            Content="Browse"
-                            Style="{StaticResource BtnStyle}"
-                            ToolTip="Browse file (Ctrl+B)" />
-                        <TextBox Style="{StaticResource TxbFileNameStyle}" Text="{Binding NameOfChosenFile}" />
-                    </StackPanel>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button
-                            Name="StartBtn"
-                            Command="{Binding StartCommand}"
-                            Content="Start"
-                            Style="{StaticResource BtnStyle}"
-                            ToolTip="Start converting (Ctrl+R)" />
-                        <Button
-                            Name="CancelBtn"
-                            Command="{Binding CancelCommand}"
-                            Content="Cancel"
-                            Style="{StaticResource BtnStyle}"
-                            ToolTip="Cancel converting (Ctrl+C)" />
-                        <Grid Width="420" Height="55">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                Foreground="{Binding ColorOfProgressText}"
-                                Style="{StaticResource TxblProgressStyle}">
-                                <Run Text="Done: " />
-                                <Run Text="{Binding PercentValueProgressBar}" />
-                                <Run>%</Run>
-                            </TextBlock>
-                            <ProgressBar
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Width="390"
-                                Height="20"
-                                Margin="5"
-                                HorizontalAlignment="Left"
-                                Background="Transparent"
-                                Maximum="{Binding MaximumProgressBar}"
-                                Visibility="Visible"
-                                Value="{Binding ValueProgressBar}" />
-                            <Image
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Width="20"
-                                Height="20"
-                                Margin="0,0,0,3"
-                                Source="../../Images/ok.png"
-                                Visibility="{Binding SucessfulEndImgVisability}" />
-                        </Grid>
-                    </StackPanel>
+                        Grid.Column="0"
+                        helpers:FocusExtension.IsFocused="{Binding IsBrowseButtonFocused}"
+                        Command="{Binding BrowseCommand}"
+                        Content="Browse"
+                        Style="{StaticResource BtnBaseStyle}"
+                        ToolTip="Browse file (Ctrl+B)" />
+                    <TextBox
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Style="{StaticResource TxbFileNameStyle}"
+                        Text="{Binding NameOfChosenFile}" />
+                    <Button
+                        Name="StartBtn"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Command="{Binding StartCommand}"
+                        Content="Start"
+                        Style="{StaticResource BtnBaseStyle}"
+                        ToolTip="Start converting (Ctrl+R)" />
+                    <Button
+                        Name="CancelBtn"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Command="{Binding CancelCommand}"
+                        Content="Cancel"
+                        Style="{StaticResource BtnBaseStyle}"
+                        ToolTip="Cancel converting (Ctrl+C)" />
+                    <Grid
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Width="420"
+                        Height="55">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Foreground="{Binding ColorOfProgressText}"
+                            Style="{StaticResource TxblProgressStyle}">
+                            <Run Text="Done: " />
+                            <Run Text="{Binding PercentValueProgressBar}" />
+                            <Run>%</Run>
+                        </TextBlock>
+                        <ProgressBar
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Maximum="{Binding MaximumProgressBar}"
+                            Style="{StaticResource PrgrsbStyle}"
+                            Value="{Binding ValueProgressBar}" />
+                        <Image
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Width="20"
+                            Height="20"
+                            Margin="0,0,0,3"
+                            Source="../../Images/ok.png"
+                            Visibility="{Binding SucessfulEndImgVisability}" />
+                    </Grid>
                 </Grid>
 
                 <Border
                     Grid.Row="1"
                     Height="550"
-                    Margin="5"
-                    VerticalAlignment="Top"
-                    BorderBrush="DimGray"
-                    BorderThickness="2">
+                    Style="{StaticResource BrdrContainerOfOutputDtg}">
                     <Grid Visibility="{Binding ExcelDataContainerVisability}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -195,7 +196,7 @@
                             HorizontalAlignment="Left"
                             Command="{Binding OpenOutputFileCommand}"
                             Content="Open"
-                            Style="{StaticResource BtnStyle}" />
+                            Style="{StaticResource BtnBaseStyle}" />
                         <TextBox
                             Grid.Row="0"
                             Grid.Column="1"
@@ -206,10 +207,7 @@
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Height="500"
-                            Margin="5"
-                            VerticalAlignment="Top"
-                            Background="Transparent"
-                            CanContentScroll="True">
+                            Style="{StaticResource ScrlVwrStyle}">
                             <DataGrid
                                 CellStyle="{StaticResource DtgCellStyle}"
                                 ColumnHeaderStyle="{StaticResource DtgHeaderStyle}"

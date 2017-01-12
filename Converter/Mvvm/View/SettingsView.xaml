@@ -11,12 +11,11 @@
     xmlns:viewModel="clr-namespace:Converter.Mvvm.ViewModel.Settings"
     x:Name="SettingsWindow"
     Title="Settings"
-    Height="400"
     helpers:CenterOnSizeChangedBehavior.CenterOnSizeChange="True"
-    Background="#FF2E2E2E"
     DataContext="{DynamicResource SettingsViewModel}"
     FocusManager.FocusedElement="{Binding ElementName=AddBtn}"
-    SizeToContent="Width"
+    SizeToContent="WidthAndHeight"
+    Style="{StaticResource WinMainStyle}"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
     <Window.InputBindings>
@@ -51,46 +50,48 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Button
+            Name="AddBtn"
             Grid.Row="0"
-            Margin="5,0"
+            Grid.Column="0"
+            Command="{Binding AddProgramCommand}"
+            Content="Add"
+            Style="{StaticResource BtnBaseStyle}"
+            ToolTip="Add new program (Ctrl+A)" />
+        <Button
+            Grid.Row="0"
+            Grid.Column="1"
+            Command="{Binding EditProgramCommand}"
+            Content="Edit"
+            Style="{StaticResource BtnBaseStyle}"
+            ToolTip="Edit selected program (Ctrl+E)" />
+        <Button
+            Grid.Row="0"
+            Grid.Column="2"
             HorizontalAlignment="Left"
-            Orientation="Horizontal">
-            <Button
-                Name="AddBtn"
-                Command="{Binding AddProgramCommand}"
-                Content="Add"
-                Style="{StaticResource BtnStyle}"
-                ToolTip="Add new program (Ctrl+A)" />
-            <Button
-                Command="{Binding EditProgramCommand}"
-                Content="Edit"
-                Style="{StaticResource BtnStyle}"
-                ToolTip="Edit selected program (Ctrl+E)" />
-            <Button
-                Margin="20,5"
-                Command="{Binding RemoveProgramCommand}"
-                Content="Remove"
-                Style="{StaticResource BtnStyle}"
-                ToolTip="Delete selected program (Del)" />
-        </StackPanel>
+            Command="{Binding RemoveProgramCommand}"
+            Content="Remove"
+            Style="{StaticResource BtnBaseStyle}"
+            ToolTip="Delete selected program (Del)" />
         <Border
             Grid.Row="1"
-            Margin="10"
-            BorderBrush="DimGray"
-            BorderThickness="1">
-            <Grid MinHeight="300">
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Style="{StaticResource BrdrContainerOfOutputDtg}">
+            <Grid MinWidth="700" MinHeight="300">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <userControls:Loading
                     Grid.Row="0"
-                    Width="700"
-                    Height="300"
-                    Margin="5"
+                    VerticalAlignment="Center"
                     Visibility="{Binding LoadingUserControlVisibility}" />
                 <DataGrid
                     Grid.Row="1"

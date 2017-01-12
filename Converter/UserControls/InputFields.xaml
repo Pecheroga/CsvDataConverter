@@ -25,37 +25,37 @@
             Grid.Row="0"
             Grid.Column="0"
             Content="Output Title:"
-            Style="{StaticResource LblEditStyle}" />
+            Style="{StaticResource LblInputFieldsStyle}" />
         <Label
             Grid.Row="0"
             Grid.Column="1"
             Content="Start Label:"
-            Style="{StaticResource LblEditStyle}" />
+            Style="{StaticResource LblInputFieldsStyle}" />
         <Label
             Grid.Row="0"
             Grid.Column="2"
             Content="End Label:"
-            Style="{StaticResource LblEditStyle}" />
+            Style="{StaticResource LblInputFieldsStyle}" />
         <Label
             Grid.Row="0"
             Grid.Column="3"
             Content="Lang:"
-            Style="{StaticResource LblEditStyle}" />
+            Style="{StaticResource LblInputFieldsStyle}" />
         <Label
             Grid.Row="0"
             Grid.Column="4"
             Content="Author:"
-            Style="{StaticResource LblEditStyle}" />
+            Style="{StaticResource LblInputFieldsStyle}" />
         <Label
             Grid.Row="0"
             Grid.Column="5"
             Content="Presenter:"
-            Style="{StaticResource LblEditStyle}" />
+            Style="{StaticResource LblInputFieldsStyle}" />
         <TextBox
             Name="TitleTbx"
             Grid.Row="1"
             Grid.Column="0"
-            Style="{StaticResource TxbEditStyle}"
+            Style="{StaticResource TxbInputFieldsStyle}"
             Text="{Binding Title, BindingGroupName=EditBindingGroup_1, UpdateSourceTrigger=Explicit}">
             <i:Interaction.Behaviors>
                 <helpers:SelectAllBehavior />
@@ -65,7 +65,7 @@
         <TextBox
             Grid.Row="1"
             Grid.Column="1"
-            Style="{StaticResource TxbEditStyle}"
+            Style="{StaticResource TxbInputFieldsStyle}"
             Text="{Binding StartLabel, BindingGroupName=EditBindingGroup_1, UpdateSourceTrigger=Explicit}">
             <i:Interaction.Behaviors>
                 <helpers:SelectAllBehavior />
@@ -75,7 +75,7 @@
         <TextBox
             Grid.Row="1"
             Grid.Column="2"
-            Style="{StaticResource TxbEditStyle}"
+            Style="{StaticResource TxbInputFieldsStyle}"
             Text="{Binding EndLabel, BindingGroupName=EditBindingGroup_1, UpdateSourceTrigger=Explicit}">
             <i:Interaction.Behaviors>
                 <helpers:SelectAllBehavior />
@@ -85,7 +85,7 @@
         <TextBox
             Grid.Row="1"
             Grid.Column="3"
-            Style="{StaticResource TxbEditStyle}"
+            Style="{StaticResource TxbInputFieldsStyle}"
             Text="{Binding Lang, BindingGroupName=EditBindingGroup_1, UpdateSourceTrigger=Explicit}">
             <i:Interaction.Behaviors>
                 <helpers:SelectAllBehavior />
@@ -95,7 +95,7 @@
         <TextBox
             Grid.Row="1"
             Grid.Column="4"
-            Style="{StaticResource TxbEditStyle}"
+            Style="{StaticResource TxbInputFieldsStyle}"
             Text="{Binding Author, BindingGroupName=EditBindingGroup_1, UpdateSourceTrigger=Explicit}">
             <i:Interaction.Behaviors>
                 <helpers:SelectAllBehavior />
@@ -105,7 +105,7 @@
         <TextBox
             Grid.Row="1"
             Grid.Column="5"
-            Style="{StaticResource TxbEditStyle}"
+            Style="{StaticResource TxbInputFieldsStyle}"
             Text="{Binding Presenter, BindingGroupName=EditBindingGroup_1, UpdateSourceTrigger=Explicit}">
             <i:Interaction.Behaviors>
                 <helpers:SelectAllBehavior />

@@ -6,8 +6,8 @@
     Title="About"
     Width="800"
     Height="400"
-    Background="#FF2E2E2E"
     DataContext="{DynamicResource ViewModelBase}"
+    Style="{StaticResource WinMainStyle}"
     WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <viewModel:ViewModelBase x:Key="ViewModelBase" />
@@ -21,21 +21,14 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TextBlock
-            Grid.Row="0"
-            FontSize="14"
-            FontWeight="Bold"
-            Style="{StaticResource TxblStyle}">
+        <TextBlock Grid.Row="0" Style="{StaticResource TxblH1TextStyle}">
             CSV to XLS converter. v.1.0
         </TextBlock>
 
         <TextBlock
             Grid.Row="1"
             Width="600"
-            Margin="0,10"
-            HorizontalAlignment="Left"
-            Style="{StaticResource TxblStyle}"
-            TextWrapping="Wrap">
+            Style="{StaticResource TxblSimpleTextStyle}">
             This program is designed to convert files, exported from Playbox ListBox format *.csv, to Excel format *xls.
             Converter is automaticaly creates in the output excel file additional columns with special info about the program
             like an Author, Language, Presenter of the program.

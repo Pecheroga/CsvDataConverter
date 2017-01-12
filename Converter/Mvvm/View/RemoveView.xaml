@@ -3,10 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="{Binding WindowTitle}"
-    Width="250"
-    Height="100"
-    Background="#FF2E2E2E"
     FocusManager.FocusedElement="{Binding ElementName=OkBtn}"
+    Style="{StaticResource WinInformStyle}"
     WindowStartupLocation="CenterOwner">
     <Window.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding CloseWindowCommand}" />
@@ -14,36 +12,35 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
+        <TextBlock Grid.Row="0" Style="{StaticResource TxblH2TextStyle}">
+            Remove:
+        </TextBlock>
         <TextBlock
-            Grid.Row="0"
-            Padding="0"
+            Grid.Row="1"
             HorizontalAlignment="Center"
-            Foreground="Azure">
-            <Run>Remove</Run>
-            <Run Text="{Binding ConfirmText}" />
+            Style="{StaticResource TxblSimpleTextStyle}">
+            <Run Style="{StaticResource RunWarning}" Text="{Binding ConfirmText}" />
             <Run>?</Run>
         </TextBlock>
         <StackPanel
-            Grid.Row="1"
-            Margin="5"
+            Grid.Row="2"
             HorizontalAlignment="Center"
-            Orientation="Horizontal">
+            Style="{StaticResource StckPnlInputBtnStyle}">
             <Button
                 Name="OkBtn"
                 Command="{Binding OkCommand}"
                 Content="_Ok"
-                Foreground="MediumSpringGreen"
-                Style="{StaticResource BtnStyle}"
-                ToolTip="Save and close" />
+                Style="{StaticResource BtnOkStyle}"
+                ToolTip="Remove" />
             <Button
                 Name="CancelBtn"
                 Command="{Binding CloseWindowCommand}"
                 Content="_Cancel"
-                Style="{StaticResource BtnStyle}"
-                ToolTip="Cancel adding" />
+                Style="{StaticResource BtnBaseStyle}"
+                ToolTip="Cancel" />
         </StackPanel>
     </Grid>
 </Window>
