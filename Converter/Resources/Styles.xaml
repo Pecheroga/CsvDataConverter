@@ -49,6 +49,7 @@
         <Setter Property="Focusable" Value="False" />
         <Setter Property="IsReadOnly" Value="True" />
         <Setter Property="FontFamily" Value="Calibri" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
     <!--  TextBlock  -->

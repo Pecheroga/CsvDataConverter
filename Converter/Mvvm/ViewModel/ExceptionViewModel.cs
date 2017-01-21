@@ -4,8 +4,6 @@
     {
         public string ExceptionText { get; private set; }
 
-        public ExceptionViewModel() { }
-
         public ExceptionViewModel(string message, string title)
         {
             WindowTitle = title;

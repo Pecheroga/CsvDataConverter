@@ -2,16 +2,24 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 using Converter.Helpers;
+using DataSource.Base;
 using DataSource.Db;
 
 namespace Converter.Mvvm.ViewModel.Settings
 {
-    internal class DialogViewModelBase : ViewModelBase
+    internal interface IDialogViewModelBase: IViewModelBase
+    {
+        Program SelectedProgram { get; }
+        RelayCommand OkCommand { get; }
+        BindingGroup EditBindingGroup { get; }
+    }
+
+    internal class DialogViewModelBase : ViewModelBase, IDialogViewModelBase
     {
         protected IToDb ToDb;
         protected readonly ISettingsViewModel SettingsViewModel;
 
-        private bool EditStarted { get; set; }
+        public virtual Program SelectedProgram { get { return null; } }
 
         private BindingGroup _editBindingGroup;
         public BindingGroup EditBindingGroup
@@ -25,8 +33,6 @@ namespace Converter.Mvvm.ViewModel.Settings
         }
 
         public RelayCommand OkCommand { get; private set; }
-        public RelayCommand ApplyCommand { get; private set; }
-        public RelayCommand UndoCommand { get; private set; }
 
         public DialogViewModelBase(ISettingsViewModel settingsViewModel)
         {
@@ -38,11 +44,6 @@ namespace Converter.Mvvm.ViewModel.Settings
             };
 
             OkCommand = new RelayCommand(Ok, CanOk);
-            ApplyCommand = new RelayCommand(Apply, CanApply);
-            UndoCommand = new RelayCommand(Undo, CanUndo);
-
-            SelectAllBehavior.TxtbEditStarted += _selectAllBehavior_TxtbEditStarted;
-            EditStarted = false;
         }
 
         protected virtual void Ok(object parameter)
@@ -56,36 +57,6 @@ namespace Converter.Mvvm.ViewModel.Settings
                 BindingExpressions.
                 Select(bindingExpression => bindingExpression.Target as TextBox).
                 Any(textBox => textBox != null && string.IsNullOrEmpty(textBox.Text));
-        }
-
-        protected virtual void Apply(object obj)
-        {
-            EditStarted = false;
-        }
-
-        private bool CanApply(object obj)
-        {
-            return !EditBindingGroup.
-                BindingExpressions.
-                Select(bindingExpression => bindingExpression.Target as TextBox).
-                Any(textBox => textBox != null && string.IsNullOrEmpty(textBox.Text))
-                && EditStarted;
-        }
-
-        private void Undo(object obj)
-        {
-            EditBindingGroup.CancelEdit();
-            EditStarted = false;
-        }
-
-        private bool CanUndo(object obj)
-        {
-            return EditStarted;
-        }
-
-        private void _selectAllBehavior_TxtbEditStarted(object sender, TextBox e)
-        {
-            EditStarted = true;
         }
     }
 }

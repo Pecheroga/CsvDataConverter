@@ -8,12 +8,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     xmlns:userControls="clr-namespace:Converter.UserControls"
-    xmlns:viewModel="clr-namespace:Converter.Mvvm.ViewModel.Settings"
-    x:Name="SettingsWindow"
     Title="Settings"
     helpers:CenterOnSizeChangedBehavior.CenterOnSizeChange="True"
-    DataContext="{DynamicResource SettingsViewModel}"
-    FocusManager.FocusedElement="{Binding ElementName=AddBtn}"
+    DataContext="{Binding Path=SettingsViewModel, Source={StaticResource ViewModelLocator}}"
     SizeToContent="WidthAndHeight"
     Style="{StaticResource WinMainStyle}"
     WindowStartupLocation="CenterOwner"
@@ -39,7 +36,6 @@
             Gesture="Esc" />
     </Window.InputBindings>
     <Window.Resources>
-        <viewModel:SettingsViewModel x:Key="SettingsViewModel" />
         <CollectionViewSource x:Key="DtgCollectionViewSource" Source="{Binding Programs}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription Direction="Descending" PropertyName="Id" />
@@ -60,6 +56,7 @@
             Name="AddBtn"
             Grid.Row="0"
             Grid.Column="0"
+            helpers:FocusExtension.IsFocused="{Binding IsAddBtnFocus}"
             Command="{Binding AddProgramCommand}"
             Content="Add"
             Style="{StaticResource BtnBaseStyle}"

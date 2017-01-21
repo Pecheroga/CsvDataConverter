@@ -1,10 +1,13 @@
-﻿using System;
-
-namespace Converter.Mvvm.ViewModel.Settings
+﻿namespace Converter.Mvvm.ViewModel.Settings
 {
-    internal sealed class RemoveDialogViewModel : DialogViewModelBase
+    internal interface IRemoveDialogViewModel : IDialogViewModelBase
     {
-        public string ConfirmText { get; private set; }
+        string ConfirmText { get; }
+    }
+
+    internal sealed class RemoveDialogViewModel : DialogViewModelBase, IRemoveDialogViewModel
+    {
+        public string ConfirmText { get { return SettingsViewModel.SelectedProgram.Title; } }
         private readonly int _selectedIndex;
         private readonly int _removeIndex;
 
@@ -12,7 +15,6 @@ namespace Converter.Mvvm.ViewModel.Settings
             : base(settingsViewModel)
         {
             WindowTitle = "Confirm";
-            ConfirmText = settingsViewModel.SelectedProgram.Title;
             _selectedIndex = SettingsViewModel.SelectedIndex;
             _removeIndex = SettingsViewModel.Programs.IndexOf(SettingsViewModel.SelectedProgram);
         }

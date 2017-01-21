@@ -11,7 +11,28 @@ using Microsoft.Win32;
 
 namespace Converter.Mvvm.ViewModel
 {
-    internal sealed class MainViewModel : ViewModelBase
+    internal interface IMainViewModel: IViewModelBase
+    {
+        ObservableCollection<OutputProgram> OutputPrograms { get; }
+        string NameOfChosenFile { get; }
+        bool IsBrowseButtonFocused { get; }
+        Visibility ExcelDataContainerVisability { get; }
+        Visibility SucessfulEndImgVisability { get; }
+        int ValueProgressBar { get; }
+        int PercentValueProgressBar { get; }
+        double MaximumProgressBar { get; }
+        string NameOfOutputFile { get; }
+        SolidColorBrush ColorOfProgressText { get; }
+        RelayCommand BrowseCommand { get; }
+        RelayCommand StartCommand { get; }
+        RelayCommand CancelCommand { get; }
+        RelayCommand OpenOutputFileCommand { get; }
+        RelayCommand SaveAsCommand { get; }
+        RelayCommand SettingsWindowShowCommand { get; }
+        RelayCommand AboutWindowShowCommand { get; }
+    }
+
+    internal sealed class MainViewModel : ViewModelBase, IMainViewModel
     {
         private bool _canSaveAs;
         private bool _canOpenOutputFile;
@@ -156,7 +177,7 @@ namespace Converter.Mvvm.ViewModel
 
         private bool CanBrowseSourceFile(object parameter)
         {
-            return true;
+            return !_mainModel.ParsingInSeparateThread.IsBusy;
         }
 
         private void StartAsyncParsing(object parameter)

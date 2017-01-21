@@ -6,9 +6,6 @@ namespace Converter.Mvvm.ViewModel.Settings
 {
     internal sealed class AddDialogViewModel : DialogViewModelBase
     {
-        private readonly Program _selectedProgram = null;
-        public Program SelectedProgram { get { return _selectedProgram; } }
-
         public AddDialogViewModel(ISettingsViewModel settingsViewModel)
             : base(settingsViewModel)
         {

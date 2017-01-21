@@ -5,17 +5,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="clr-namespace:Converter.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModel="clr-namespace:Converter.Mvvm.ViewModel"
     Title="CSV Converter"
     Width="750"
     Height="770"
-    DataContext="{DynamicResource MainViewModel}"
+    DataContext="{Binding Path=MainViewModel, Source={StaticResource ViewModelLocator}}"
     Icon="../../Images/logo.png"
     Style="{StaticResource WinMainStyle}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.Resources>
-        <viewModel:MainViewModel x:Key="MainViewModel" />
         <Image
             x:Key="SaveImage"
             Width="14"
@@ -121,7 +119,7 @@
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
                         Style="{StaticResource TxbFileNameStyle}"
-                        Text="{Binding NameOfChosenFile}" />
+                        Text="{Binding NameOfChosenFile, Mode=OneWay}" />
                     <Button
                         Name="StartBtn"
                         Grid.Row="1"
@@ -158,15 +156,15 @@
                             Foreground="{Binding ColorOfProgressText}"
                             Style="{StaticResource TxblProgressStyle}">
                             <Run Text="Done: " />
-                            <Run Text="{Binding PercentValueProgressBar}" />
+                            <Run Text="{Binding PercentValueProgressBar, Mode=OneWay}" />
                             <Run>%</Run>
                         </TextBlock>
                         <ProgressBar
                             Grid.Row="1"
                             Grid.Column="0"
-                            Maximum="{Binding MaximumProgressBar}"
+                            Maximum="{Binding MaximumProgressBar, Mode=OneWay}"
                             Style="{StaticResource PrgrsbStyle}"
-                            Value="{Binding ValueProgressBar}" />
+                            Value="{Binding ValueProgressBar, Mode=OneWay}" />
                         <Image
                             Grid.Row="1"
                             Grid.Column="1"

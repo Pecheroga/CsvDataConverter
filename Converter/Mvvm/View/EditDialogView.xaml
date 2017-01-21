@@ -6,6 +6,7 @@
     xmlns:userControls="clr-namespace:Converter.UserControls"
     Title="{Binding WindowTitle}"
     Style="{StaticResource WinAddEditStyle}"
+    DataContext="{Binding Path=EditDialogViewModel, Source={StaticResource ViewModelLocator}}"
     WindowStartupLocation="CenterOwner">
     <Window.InputBindings>
         <KeyBinding Key="Enter" Command="{Binding OkCommand}" />

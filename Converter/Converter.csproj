@@ -67,6 +67,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Mvvm\ViewModel\MockViewModel.cs" />
+    <Compile Include="Mvvm\ViewModel\ViewModelLocator.cs" />
     <Compile Include="Mvvm\ViewModel\ExceptionViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\MainViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\Settings\AddDialogViewModel.cs" />

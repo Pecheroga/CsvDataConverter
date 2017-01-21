@@ -5,6 +5,7 @@
     xmlns:helpers="clr-namespace:Converter.Helpers"
     xmlns:userControls="clr-namespace:Converter.UserControls"
     Title="{Binding WindowTitle}"
+    DataContext="{Binding Path=AddDialogViewModel, Source={StaticResource ViewModelLocator}}"
     Style="{StaticResource WinAddEditStyle}"
     WindowStartupLocation="CenterOwner">
     <Window.InputBindings>
@@ -27,7 +28,7 @@
             Grid.Row="0"
             BindingGroup="{Binding EditBindingGroup}"
             ItemTemplate="{StaticResource AddDataTemplate}"
-            ItemsSource="{Binding SelectedProgram, Converter={StaticResource SelectedProgramToListConverter}}"
+            ItemsSource="{Binding SelectedProgram, Converter={StaticResource SelectedProgramToListConverter}, Mode=OneWay}"
             Style="{StaticResource ItmCtrlStyle}" />
         <StackPanel Grid.Row="1" Style="{StaticResource StckPnlInputBtnStyle}">
             <Button

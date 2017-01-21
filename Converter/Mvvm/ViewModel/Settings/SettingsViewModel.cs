@@ -8,11 +8,17 @@ using DataSource.Base;
 
 namespace Converter.Mvvm.ViewModel.Settings
 {
-    public interface ISettingsViewModel
+    internal interface ISettingsViewModel : IViewModelBase
     {
-        ObservableCollection<Program> Programs { get; set; }
-        Program SelectedProgram { get; set; }
+        ObservableCollection<Program> Programs { get; }
+        Program SelectedProgram { get; }
         int SelectedIndex { get; set; }
+        bool IsAddBtnFocus { get; set; }
+        Visibility LoadingUserControlVisibility { get; }
+        Visibility ProgramsVisibility { get; }
+        RelayCommand AddProgramCommand { get; }
+        RelayCommand EditProgramCommand { get;  }
+        RelayCommand RemoveProgramCommand { get; }
     }
 
     internal sealed class SettingsViewModel : ViewModelBase, ISettingsViewModel
@@ -65,17 +71,27 @@ namespace Converter.Mvvm.ViewModel.Settings
             }
         }
 
-        public RelayCommand FillProgramsWithDbDataCommand { get; set; }
-        public RelayCommand AddProgramCommand { get; set; }
-        public RelayCommand EditProgramCommand { get; set; }
-        public RelayCommand RemoveProgramCommand { get; set; }
+        private bool _isAddBtnFocus;
+        public bool IsAddBtnFocus
+        {
+            get { return _isAddBtnFocus; }
+            set
+            {
+                _isAddBtnFocus = value; 
+                OnPropertyChanged();
+            }
+        }
+
+        public RelayCommand AddProgramCommand { get; private set; }
+        public RelayCommand EditProgramCommand { get; private set; }
+        public RelayCommand RemoveProgramCommand { get; private set; }
 
         public SettingsViewModel()
         {
             _fromDb = new FromDb();
             AsyncGetProgramsFromDb();
-
-            AddProgramCommand = new RelayCommand(AddWindowShow);
+            
+            AddProgramCommand = new RelayCommand(AddWindowShow, CanAddProgram);
             EditProgramCommand = new RelayCommand(EditWindowShow, CanEditProgram);
             RemoveProgramCommand = new RelayCommand(RemoveWindowShow, CanRemoveProgram);
 
@@ -93,7 +109,7 @@ namespace Converter.Mvvm.ViewModel.Settings
             return Task.Run(() =>
             {
                 _fromDb.FillPrograms();
-                _programs = _fromDb.GetPrograms();
+                Programs = _fromDb.GetPrograms();
             });
         }
 
@@ -101,31 +117,34 @@ namespace Converter.Mvvm.ViewModel.Settings
         {
             LoadingUserControlVisibility = Visibility.Collapsed;
             ProgramsVisibility = Visibility.Visible;
-            OnPropertyChanged("Programs");
             SelectedIndex = -1;
+            IsAddBtnFocus = true;
         }
 
         private void AddWindowShow(object parameter)
         {
-            var addDialogViewModel = new AddDialogViewModel(this);
+            ViewModelLocator.AddDialogViewModel = new AddDialogViewModel(this);
             var dialogView = new AddDialogView
             {
                 Owner = MainWindowOfApplication,
                 ShowInTaskbar = false,
-                DataContext = addDialogViewModel,
                 Icon = MainWindowOfApplication.Icon
             };
             dialogView.ShowDialog();
         }
 
+        private bool CanAddProgram(object obj)
+        {
+            return _programs != null;
+        }
+
         private void EditWindowShow(object parameter)
         {
-            var editDialogViewModel = new EditDialogViewModel(this);
+            ViewModelLocator.EditDialogViewModel = new EditDialogViewModel(this);
             var dialogView = new EditDialogView
             {
                 Owner = MainWindowOfApplication,
                 ShowInTaskbar = false,
-                DataContext = editDialogViewModel,
                 Icon = MainWindowOfApplication.Icon
             };
             dialogView.ShowDialog();
@@ -138,12 +157,11 @@ namespace Converter.Mvvm.ViewModel.Settings
 
         private void RemoveWindowShow(object parameter)
         {
-            var removeDialogViewModel = new RemoveDialogViewModel(this);
+            ViewModelLocator.RemoveDialogViewModel = new RemoveDialogViewModel(this);
             var removeView = new RemoveView
             {
                 Owner = MainWindowOfApplication,
                 ShowInTaskbar = false,
-                DataContext = removeDialogViewModel,
                 Icon = MainWindowOfApplication.Icon
             };
             removeView.ShowDialog();

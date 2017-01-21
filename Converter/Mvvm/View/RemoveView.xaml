@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="{Binding WindowTitle}"
+    DataContext="{Binding Path=RemoveDialogViewModel, Source={StaticResource ViewModelLocator}}"
     FocusManager.FocusedElement="{Binding ElementName=OkBtn}"
     Style="{StaticResource WinInformStyle}"
     WindowStartupLocation="CenterOwner">
@@ -22,7 +23,7 @@
             Grid.Row="1"
             HorizontalAlignment="Center"
             Style="{StaticResource TxblSimpleTextStyle}">
-            <Run Style="{StaticResource RunWarning}" Text="{Binding ConfirmText}" />
+            <Run Style="{StaticResource RunWarning}" Text="{Binding ConfirmText, Mode=OneWay}" />
             <Run>?</Run>
         </TextBlock>
         <StackPanel

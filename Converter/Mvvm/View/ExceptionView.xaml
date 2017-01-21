@@ -2,16 +2,12 @@
     x:Class="Converter.Mvvm.View.ExceptionView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:viewModel="clr-namespace:Converter.Mvvm.ViewModel"
     Title="{Binding WindowTitle}"
-    DataContext="{DynamicResource ExceptionViewModel}"
+    DataContext="{Binding Path=ExceptionViewModel, Source={StaticResource ViewModelLocator}}"
     FocusManager.FocusedElement="{Binding ElementName=CloseBtn}"
     SizeToContent="Height"
     Style="{StaticResource WinInformStyle}"
     WindowStartupLocation="CenterOwner">
-    <Window.Resources>
-        <viewModel:ExceptionViewModel x:Key="ExceptionViewModel" />
-    </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding CloseWindowCommand}" />
     </Window.InputBindings>
