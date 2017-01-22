@@ -1,142 +1,132 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using Converter.Helpers;
+using System.Linq;
+using System.Text;
 using DataSource.Db;
 using DataSource.Base;
-using Microsoft.Office.Interop.Excel;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Converter.Mvvm.Model
 {
     internal sealed class SourceFile
     {
+        private readonly string _nameOfChosenFile;
+        private readonly List<string[]> _playlist = new List<string[]>();
+        private string[] _columnNames;
+        private int _columnsCount;
+        private bool _toNextRowWithoutSave;
+        private ObservableCollection<Program> _programs;
         private SourceProgram _newSourceProgram;
         private OutputProgram _outputProgram;
-        private readonly ObservableCollection<Program> _programs;
-        private readonly ObservableCollection<OutputProgram> _outputPrograms;
-        private readonly ExcelAppFromFile _sourceExcelApp;
-        private readonly Worksheet _sourceFirstWorksheet;
-        private bool _toNextRowWithoutSave;
-        private readonly int _columnsCountOfFirstWorksheet;
-        private readonly ArrayList _sourceFileColumnNames;
-        
-        public int RowsCountOfFirstWorksheet { get; set; }
+        private readonly ObservableCollection<OutputProgram> _outputPrograms = new ObservableCollection<OutputProgram>();
+
+        public int RowsCountOfSourceFile { get; set; }
 
         public SourceFile(string nameOfChosenFile)
         {
-            _outputPrograms = new ObservableCollection<OutputProgram>();
-            IFromDb fromDb = new FromDb();
-            fromDb.FillPrograms();
-            _programs = fromDb.GetPrograms();
-            _sourceExcelApp = new ExcelAppFromFile(nameOfChosenFile);
-            _sourceFirstWorksheet = _sourceExcelApp.GetFirstWorksheet();
-            SetRowsCountOfFirstWorksheet();
-            _sourceFileColumnNames = new ArrayList();
-            _columnsCountOfFirstWorksheet = _sourceFirstWorksheet.UsedRange.Columns.Count;
-            TryParseColumnNamesFromSourceFile();
+            _nameOfChosenFile = nameOfChosenFile;
         }
 
-        private void SetRowsCountOfFirstWorksheet()
+        public void Parse()
         {
-            var usedRange = _sourceFirstWorksheet.UsedRange;
-            var rows = usedRange.Rows;
-            RowsCountOfFirstWorksheet = rows.Count;
-        }
-
-        private void TryParseColumnNamesFromSourceFile()
-        {
-            try
+            using (var csv = new TextFieldParser(_nameOfChosenFile, Encoding.GetEncoding(1251)))
             {
-                ParseColumnNamesFromSourceFile();
+                csv.Delimiters = new[] {";"};
+                csv.TextFieldType = FieldType.Delimited;
+                csv.HasFieldsEnclosedInQuotes = false;
+
+                var line = new List<string>();
+                while (!csv.EndOfData)
+                {
+                    var fields = csv.ReadFields();
+                    if (fields == null) continue;
+                    line.AddRange(
+                        from field in fields
+                        where field != null
+                        select field.Trim('/', '"'));
+                    _playlist.Add(line.ToArray());
+                    line.Clear();
+                }
             }
-            catch (Exception)
-            {
-                throw new ExcelException(_sourceExcelApp, "Fail to parsing column names in the source file");
-            }
+
+            RowsCountOfSourceFile = _playlist.Count;
+            _columnsCount = _playlist[0].Length;
+            _columnNames = _playlist[0];
         }
 
-        private void ParseColumnNamesFromSourceFile()
+        public void ConvertSourceToOutput(BackgroundWorker parsingInSeparateThread)
         {
-            for (var parsingColumn = 1; parsingColumn <= _columnsCountOfFirstWorksheet; parsingColumn++)
-            {
-                var usedRange = _sourceFirstWorksheet.UsedRange;
-                var cells = usedRange.Cells;
-                var columnNameCell = cells[1, parsingColumn] as Range;
-                if (columnNameCell == null) continue;
-                var value2 = columnNameCell.Value2;
-                var columnName = value2.ToString();
-                _sourceFileColumnNames.Add(columnName);
-            }
-        }
-
-        public void Start(BackgroundWorker parsingInSeparateThread)
-        {
-            for (var parsingRow = 2; parsingRow <= RowsCountOfFirstWorksheet; parsingRow++)
+            GetProgramsFromDb();
+            for (var parsingRow = 1; parsingRow < RowsCountOfSourceFile; parsingRow++)
             {
                 if (parsingInSeparateThread.CancellationPending)
                 {
-                    throw new ExcelException(_sourceExcelApp, "Parsing in canceled by User");
+                    throw new Exception("Parsing in canceled by User");
                 }
                 parsingInSeparateThread.ReportProgress(parsingRow);
-                CheckFormatStartTimeIn(parsingRow);
+
                 _toNextRowWithoutSave = false;
                 FillNewSourceProgramFrom(parsingRow);
                 if (_toNextRowWithoutSave) continue;
+
                 AddToOutputPrograms(_newSourceProgram);
             }
-            _sourceExcelApp.QuitExcelApp();
         }
 
-        private void CheckFormatStartTimeIn(int parsingRow)
+        private void GetProgramsFromDb()
         {
-            var startTimeColumnIndex = _sourceFileColumnNames.IndexOf("Start Time");
-            if (startTimeColumnIndex == -1) return;
-            var startTimeCellColumnIndex = startTimeColumnIndex + 1;
-            var usedRange = _sourceFirstWorksheet.UsedRange;
-            var cells = usedRange.Cells;
-            var startTimeCell = cells[parsingRow, startTimeCellColumnIndex] as Range;
-            if (startTimeCell == null) return;
-            var value2 = startTimeCell.Value2;
-            var startTime = value2.ToString();
-            if (startTime.Contains("(1)"))
-            {
-                throw new ExcelException(
-                    _sourceExcelApp, 
-                    "The Start Time column of source file can't contains next day symblol \"(1)\"");
-            }
+            IFromDb fromDb = new FromDb();
+            fromDb.FillPrograms();
+            _programs = fromDb.GetPrograms();
         }
 
         private void FillNewSourceProgramFrom(int parsingRow)
         {
             _newSourceProgram = new SourceProgram();
-            for (var parsingColumn = 1; parsingColumn <= _columnsCountOfFirstWorksheet; parsingColumn++)
+            for (var parsingColumn = 0; parsingColumn < _columnsCount; parsingColumn++)
             {
-                var usedRange = _sourceFirstWorksheet.UsedRange;
-                var cells = usedRange.Cells;
-                var parsingCell = cells[parsingRow, parsingColumn] as Range;
-                if (parsingCell == null) continue;
-
-                var columnName = (string)_sourceFileColumnNames[parsingColumn - 1];
-
-                switch (columnName)
+                switch (_columnNames[parsingColumn])
                 {
                     case "Start Time":
-                        _newSourceProgram.SourceStartTime = parsingCell.Value2;
+                        var sourceStartTime = _playlist[parsingRow][parsingColumn];
+                        if (sourceStartTime.Contains("(1)"))
+                        {
+                            throw new Exception("The Start Time column of source file can't contains next day symblol \"(1)\"");
+                        }
+                        _newSourceProgram.SourceStartTime = TimeSpanParse(sourceStartTime);
                         break;
                     case "Title":
-                        var value2 = parsingCell.Value2;
-                        _newSourceProgram.SourceTitle = value2.ToString();
+                        _newSourceProgram.SourceTitle = _playlist[parsingRow][parsingColumn];
                         break;
                     case "Duration":
-                        var sourceDuration = parsingCell.Value2;
-                        if (sourceDuration == 0) _toNextRowWithoutSave = true;
-                        _newSourceProgram.SourceDuration = sourceDuration;
+                        var sourceDuration = _playlist[parsingRow][parsingColumn];
+                        var duration = TimeSpanParse(sourceDuration);
+                        if (duration.Equals(0)) _toNextRowWithoutSave = true;
+                        _newSourceProgram.SourceDuration = duration;
                         break;
                     default:
                         continue;
                 }
             }
+        }
+
+        private static double TimeSpanParse(string field)
+        {
+            TimeSpan t;
+            const int lengthWithFrames = 11;
+            if (field.Length == lengthWithFrames)
+            {
+                var trimIndex = field.LastIndexOf(":", StringComparison.Ordinal);
+                var startTimeTrimed = field.Remove(trimIndex);
+                t = TimeSpan.Parse(startTimeTrimed);
+            }
+            else
+            {
+                t = TimeSpan.Parse(field);
+            }
+            return t.TotalDays;
         }
 
         public void AddToOutputPrograms(SourceProgram sourceProgram)
@@ -183,8 +173,7 @@ namespace Converter.Mvvm.Model
             }
             catch (Exception)
             {
-                throw new ExcelException(
-                    _sourceExcelApp,
+                throw new Exception(
                     "Error while merging the \"" + program.Title + "\".\n " +
                     "Check the Start and End Labels in the Settings.");
             }

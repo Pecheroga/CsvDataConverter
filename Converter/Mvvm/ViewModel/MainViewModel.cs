@@ -167,7 +167,7 @@ namespace Converter.Mvvm.ViewModel
             var chooseFileDialog = new OpenFileDialog
             {
                 DefaultExt = ".csv",
-                Filter = "*.csv|*.csv"
+                Filter = "*.csv|*.csv|All files (*.*)|*.*"
             };
             var isFileChosen = chooseFileDialog.ShowDialog().GetValueOrDefault();
             if (!isFileChosen) return;

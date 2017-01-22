@@ -94,9 +94,10 @@ namespace Converter.Mvvm.Model
 
         private void ParseSourceFile()
         {
-             var sourceFile = new SourceFile(_nameOfChosenFile);
-            MaximumProgressBar = sourceFile.RowsCountOfFirstWorksheet;
-            sourceFile.Start(ParsingInSeparateThread);
+            var sourceFile = new SourceFile(_nameOfChosenFile);
+            sourceFile.Parse();
+            MaximumProgressBar = sourceFile.RowsCountOfSourceFile - 1;
+            sourceFile.ConvertSourceToOutput(ParsingInSeparateThread);
             OutputPrograms = sourceFile.GetOutputPrograms();
         }
 

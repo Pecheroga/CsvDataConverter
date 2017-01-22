@@ -1,4 +1,5 @@
-﻿using Converter.Helpers;
+﻿using System;
+using Converter.Helpers;
 using Microsoft.Office.Interop.Excel;
 using Application = Microsoft.Office.Interop.Excel.Application;
 
@@ -88,22 +89,31 @@ namespace Converter.Mvvm.Model
 
         protected override void AddWorkbook()
         {
+            //Workbooks.OpenText(
+            //    _nameOfChosenFile,
+            //    XlPlatform.xlWindows,
+            //    DataType: XlTextParsingType.xlDelimited,
+            //    TextQualifier: XlTextQualifier.xlTextQualifierDoubleQuote,
+            //    Semicolon: true,
+            //    Local: false);
+            //Workbook = Workbooks.Item[1];
+
             Workbook = Workbooks.Open(
                 _nameOfChosenFile, // File name
-                0, // UpdateLink
-                true, // ReadOnly
-                2, // Format
-                "", // Password
-                "", // WriteResPassword
-                true, // IgnorReadOnlyRecommended
+                Type.Missing, // UpdateLink
+                Type.Missing, // ReadOnly
+                Type.Missing, // Format: 1-Tabs,2-Commas,3-Spaces,4-Semicolons,5-Nothing,6-Custom
+                Type.Missing, // Password
+                Type.Missing, // WriteResPassword
+                Type.Missing, // IgnorReadOnlyRecommended
                 XlPlatform.xlWindows, // Origin
-                false, // Delimiter    
-                false, // Editable
-                false, // Notify
-                0, // Converter
-                true, // AddToMru
-                1, // Local
-                0 // CoruptLoad
+                Type.Missing, // Custom delimiter    
+                Type.Missing, // Editable
+                Type.Missing, // Notify
+                Type.Missing, // Converter
+                Type.Missing, // AddToMru
+                true, // Local
+                Type.Missing // CoruptLoad
                 );
             base.AddWorkbook();
         }
