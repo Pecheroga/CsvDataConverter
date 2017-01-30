@@ -15,11 +15,7 @@ namespace Converter.Mvvm.ViewModel
         public bool IsBrowseButtonFocused { get { return true; } }
         public Visibility ExcelDataContainerVisability { get { return Visibility.Visible; } }
         public Visibility SucessfulEndImgVisability { get { return Visibility.Visible; } }
-        public int ValueProgressBar { get { return 50; } }
         public int PercentValueProgressBar { get { return 50; } }
-
-        public double MaximumProgressBar { get { return 100; } }
-
         public string NameOfOutputFile { get { return "Dummy"; } }
         public SolidColorBrush ColorOfProgressText { get { return Brushes.LightGreen; } }
         public RelayCommand BrowseCommand { get { return null; } }

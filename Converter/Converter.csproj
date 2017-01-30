@@ -68,6 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Mvvm\Model\Parser.cs" />
     <Compile Include="Mvvm\ViewModel\MockViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\ViewModelLocator.cs" />
     <Compile Include="Mvvm\ViewModel\ExceptionViewModel.cs" />
@@ -163,9 +164,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mvvm\Model\ExcelApp.cs" />
-    <Compile Include="Mvvm\Model\MainModel.cs" />
-    <Compile Include="Mvvm\Model\OutputFile.cs" />
-    <Compile Include="Mvvm\Model\SourceFile.cs" />
+    <Compile Include="Mvvm\Model\Worker.cs" />
+    <Compile Include="Mvvm\Model\Save.cs" />
+    <Compile Include="Mvvm\Model\Converter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

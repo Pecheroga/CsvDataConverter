@@ -5,7 +5,7 @@ using Microsoft.Office.Interop.Excel;
 
 namespace Converter.Mvvm.Model
 {
-    internal sealed class OutputFile
+    internal sealed class Save
     {
         private readonly string _nameOfChosenFileWithoutExtension;
         private readonly string _nameOfOutputFile;
@@ -18,7 +18,7 @@ namespace Converter.Mvvm.Model
             get { return _nameOfOutputFile; }
         }
 
-        public OutputFile(string nameOfChosenFile)
+        public Save(string nameOfChosenFile)
         {
             _nameOfChosenFileWithoutExtension = Path.GetFileNameWithoutExtension(nameOfChosenFile);
             _nameOfOutputFile = Path.GetDirectoryName(nameOfChosenFile) + "\\Витяг_" + _nameOfChosenFileWithoutExtension + ".xlsx";
@@ -76,23 +76,32 @@ namespace Converter.Mvvm.Model
                         case 5:
                             outputProgramsToCells[row, column] = _outputPrograms[row].Presenter;
                             break;
+                        default:
+                            continue;
                     }
                 }
             }
 
-            _outputExcelApp.GetFirstWorksheetRange("A1", "F1").Value2 = headerToCells;
-            _outputExcelApp.GetFirstWorksheetRange("A2", "F2").Value2 = columnNamesToCells;
-            _outputExcelApp.GetFirstWorksheetRange("A3", "F" + (_outputPrograms.Count + 2)).Value2 = outputProgramsToCells;
+            var range = _outputExcelApp.GetFirstWorksheetRange("A1", "F1");
+            range.Value2 = headerToCells;
+            range = _outputExcelApp.GetFirstWorksheetRange("A2", "F2");
+            range.Value2 = columnNamesToCells;
+            range = _outputExcelApp.GetFirstWorksheetRange("A3", "F" + (_outputPrograms.Count + 2));
+            range.Value2 = outputProgramsToCells;
         }
 
         private void SetColorOfColumnNamesCells()
         {
-            _outputExcelApp.GetFirstWorksheetRange("A2", "F2").Interior.Color = XlRgbColor.rgbLightGray;
+            var range = _outputExcelApp.GetFirstWorksheetRange("A2", "F2");
+            var interior = range.Interior;
+            interior.Color = XlRgbColor.rgbLightGray;
         }
 
         private void AutoFitCells()
         {
-            _outputFirstWorksheet.UsedRange.Columns.AutoFit();
+            var range = _outputFirstWorksheet.UsedRange;
+            var columns = range.Columns;
+            columns.AutoFit();
         }
     }
 }

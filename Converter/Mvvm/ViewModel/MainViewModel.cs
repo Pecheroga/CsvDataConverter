@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Converter.Helpers;
@@ -18,9 +20,7 @@ namespace Converter.Mvvm.ViewModel
         bool IsBrowseButtonFocused { get; }
         Visibility ExcelDataContainerVisability { get; }
         Visibility SucessfulEndImgVisability { get; }
-        int ValueProgressBar { get; }
         int PercentValueProgressBar { get; }
-        double MaximumProgressBar { get; }
         string NameOfOutputFile { get; }
         SolidColorBrush ColorOfProgressText { get; }
         RelayCommand BrowseCommand { get; }
@@ -37,10 +37,10 @@ namespace Converter.Mvvm.ViewModel
         private bool _canSaveAs;
         private bool _canOpenOutputFile;
 
-        private readonly MainModel _mainModel;
+        private readonly Worker _worker;
         public ObservableCollection<OutputProgram> OutputPrograms
         {
-            get { return _mainModel.OutputPrograms; }
+            get { return _worker.OutputPrograms; }
         }
 
         private string _nameOfChosenFile;
@@ -87,27 +87,14 @@ namespace Converter.Mvvm.ViewModel
             }
         }
 
-        public int ValueProgressBar
-        {
-            get { return _mainModel.ValueProgressBar; }
-            private set { _mainModel.ValueProgressBar = value; }
-        }
-
         public int PercentValueProgressBar
         {
-            get { return _mainModel.PercentValueProgressBar; }
-            private set { _mainModel.PercentValueProgressBar = value; }
-        }
-
-        public double MaximumProgressBar
-        {
-            get { return _mainModel.MaximumProgressBar; }
-            private set { _mainModel.MaximumProgressBar = value; }
+            get { return _worker.PercentValueProgressBar; }
         }
 
         public string NameOfOutputFile
         {
-            get { return _mainModel.NameOfOutputFile; }
+            get { return _worker.NameOfOutputFile; }
         }
 
         private SolidColorBrush _colorOfProgressText;
@@ -139,29 +126,13 @@ namespace Converter.Mvvm.ViewModel
             SettingsWindowShowCommand = new RelayCommand(SettingsWindowShow);
             AboutWindowShowCommand = new RelayCommand(AboutWindowShow);
 
-            _mainModel = new MainModel();
-            _mainModel.PropertyChanged += _mainModel_PropertyChanged;
-            _mainModel.ParsingInSeparateThread.RunWorkerCompleted += ParsingInSeparateThread_RunWorkerCompleted;
+            _worker = new Worker();
+            _worker.PropertyChanged += _worker_PropertyChanged;
+            _worker.MainWorker.RunWorkerCompleted += MainWorker_RunWorkerCompleted;
 
-            SetControlsDefaultState();
+            SetDefaultControlsState();
         }
 
-        private void _mainModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            OnPropertyChanged(e.PropertyName);
-        }
-        
-        private void SetControlsDefaultState()
-        {
-            ColorOfProgressText = Brushes.Azure;
-            ValueProgressBar = 0;
-            PercentValueProgressBar = 0;
-            MaximumProgressBar = 100;
-            IsBrowseButtonFocused = true;
-            ExcelDataContainerVisability = Visibility.Hidden;
-            SucessfulEndImgVisability = Visibility.Hidden;
-        }
-        
         private void BrowseSourceFile(object parameter)
         {
             var chooseFileDialog = new OpenFileDialog
@@ -177,41 +148,47 @@ namespace Converter.Mvvm.ViewModel
 
         private bool CanBrowseSourceFile(object parameter)
         {
-            return !_mainModel.ParsingInSeparateThread.IsBusy;
+            return !_worker.MainWorker.IsBusy;
         }
 
         private void StartAsyncParsing(object parameter)
         {
-            if (_mainModel.ParsingInSeparateThread.IsBusy == false)
+            SetParsingIsOccursControlsState();
+            if (_worker.MainWorker.IsBusy == false)
             {
-                _mainModel.ParsingInSeparateThread.RunWorkerAsync(NameOfChosenFile);
+                var mainView = Application.Current.Windows.OfType<MainView>().Single();
+                
+                _worker.MainWorker.RunWorkerAsync(NameOfChosenFile);
             }
-            SetControlsStateWhileParsingIsOccurs();
         }
 
-        private void SetControlsStateWhileParsingIsOccurs()
+        private void SetParsingIsOccursControlsState()
         {
+            _worker.PercentValueProgressBar = 0;
+            ColorOfProgressText = Brushes.Azure;
             IsBrowseButtonFocused = false;
             ExcelDataContainerVisability = Visibility.Hidden;
             SucessfulEndImgVisability = Visibility.Hidden;
-            ColorOfProgressText = Brushes.Azure;
             _canSaveAs = false;
             _canOpenOutputFile = false;
         }
 
         private bool CanStartAsyncParsing(object parameter)
         {
-            return !_mainModel.ParsingInSeparateThread.IsBusy && NameOfChosenFile != null;
+            return !_worker.MainWorker.IsBusy && NameOfChosenFile != null;
         }
 
         private void CancelParsing(object parameter)
         {
-            _mainModel.ParsingInSeparateThread.CancelAsync();
+            if (_worker.MainWorker.IsBusy)
+            {
+                _worker.MainWorker.CancelAsync();
+            }
         }
 
         private bool CanCancelParsing(object parameter)
         {
-            return _mainModel.ParsingInSeparateThread.IsBusy;
+            return _worker.MainWorker.IsBusy;
         }
 
         private void SaveAs(object parameter)
@@ -265,19 +242,34 @@ namespace Converter.Mvvm.ViewModel
             aboutView.ShowDialog();
         }
 
-        private void ParsingInSeparateThread_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        private void _worker_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(e.PropertyName);
+        }
+
+        private void SetDefaultControlsState()
+        {
+            _worker.PercentValueProgressBar = 0;
+            ColorOfProgressText = Brushes.Azure;
+            IsBrowseButtonFocused = true;
+            ExcelDataContainerVisability = Visibility.Hidden;
+            SucessfulEndImgVisability = Visibility.Hidden;
+        }
+
+        private void MainWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             if (e.Error == null)
             {
-                SetControlsStateThenParsingComleted();
+                SetParsingComletedControlsState();
             }
             else
             {
-                SetControlsDefaultState();
+                SetDefaultControlsState();
+                throw new Exception(e.Error.Message);
             }
         }
 
-        private void SetControlsStateThenParsingComleted()
+        private void SetParsingComletedControlsState()
         {
             ColorOfProgressText = Brushes.LightGreen;
             IsBrowseButtonFocused = true;
