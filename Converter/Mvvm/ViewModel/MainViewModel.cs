@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Converter.Helpers;
@@ -156,8 +156,6 @@ namespace Converter.Mvvm.ViewModel
             SetParsingIsOccursControlsState();
             if (_worker.MainWorker.IsBusy == false)
             {
-                var mainView = Application.Current.Windows.OfType<MainView>().Single();
-                
                 _worker.MainWorker.RunWorkerAsync(NameOfChosenFile);
             }
         }
@@ -242,7 +240,7 @@ namespace Converter.Mvvm.ViewModel
             aboutView.ShowDialog();
         }
 
-        private void _worker_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void _worker_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(e.PropertyName);
         }
@@ -256,17 +254,17 @@ namespace Converter.Mvvm.ViewModel
             SucessfulEndImgVisability = Visibility.Hidden;
         }
 
-        private void MainWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        private void MainWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (e.Error == null)
-            {
-                SetParsingComletedControlsState();
-            }
-            else
+            if (e.Error != null)
             {
                 SetDefaultControlsState();
-                throw new Exception(e.Error.Message);
+                if (e.Error.InnerException != null) throw new Exception(e.Error.Message, e.Error);
+                const string defaultMessage = 
+                    "Error has occurred while process of parsing or converting.\nCheck log file for more information.";
+                throw new Exception(defaultMessage, e.Error);
             }
+            SetParsingComletedControlsState();
         }
 
         private void SetParsingComletedControlsState()

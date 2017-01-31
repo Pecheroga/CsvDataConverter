@@ -111,7 +111,8 @@ namespace Converter.Mvvm.Model
                 MainWorker.ReportProgress(percentProgress);
                 _prevProgressValue = percentProgress;
             }
-            if (MainWorker.CancellationPending) throw new Exception("Parsing process has been canceled.");
+            if (MainWorker.CancellationPending) 
+                throw new Exception("Parsing process has been canceled.", new Exception());
         }
 
         private void MainWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -127,6 +128,11 @@ namespace Converter.Mvvm.Model
             OutputPrograms.Clear();
 
             if (e.Error != null) return;
+            RunOutputProgramsLoading();
+        }
+
+        private void RunOutputProgramsLoading()
+        {
             _tempToOutputProgramsRef = TempToOutputPrograms;
             _mainView.Dispatcher.BeginInvoke(DispatcherPriority.Background, _tempToOutputProgramsRef, 0);
         }
@@ -136,14 +142,7 @@ namespace Converter.Mvvm.Model
             OutputPrograms.Add(_tempPrograms[number]);
 
             if (number >= _tempPrograms.Count - 1) return;
-            try
-            {
-                _mainView.Dispatcher.BeginInvoke(DispatcherPriority.Background, _tempToOutputProgramsRef, ++number);
-            }
-            catch (Exception)
-            {
-                return;
-            }
+            _mainView.Dispatcher.BeginInvoke(DispatcherPriority.Background, _tempToOutputProgramsRef, ++number);
         }
     }
 }

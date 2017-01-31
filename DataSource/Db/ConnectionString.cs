@@ -13,9 +13,9 @@ namespace DataSource.Db
             {
                 GetConnectionString();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                throw new Exception("Can not create DataBase connection string.");
+                throw new Exception("Can not create DataBase connection string.", exception);
             }
         }
 

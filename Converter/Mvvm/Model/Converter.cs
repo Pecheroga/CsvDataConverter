@@ -13,7 +13,8 @@ namespace Converter.Mvvm.Model
         private ObservableCollection<Program> _programs;
         private SourceProgram _newSourceProgram;
         private OutputProgram _outputProgram;
-        private readonly ObservableCollection<OutputProgram> _outputPrograms = new ObservableCollection<OutputProgram>();
+        private readonly ObservableCollection<OutputProgram> _outputPrograms 
+            = new ObservableCollection<OutputProgram>();
 
         public Converter(List<string[]> convertibleArray)
         {
@@ -51,10 +52,6 @@ namespace Converter.Mvvm.Model
                 {
                     case "Start Time":
                         var sourceStartTime = _convertibleArray[parsingRow][parsingColumn];
-                        if (sourceStartTime.Contains("(1)"))
-                        {
-                            throw new Exception("The Start Time column of source file can't contains next day symblol \"(1)\"");
-                        }
                         _newSourceProgram.SourceStartTime = TryParseToDoubleTotalDays(sourceStartTime);
                         break;
                     case "Title":
@@ -78,17 +75,17 @@ namespace Converter.Mvvm.Model
             {
                 return ParseToDoubleTotalDays(field);
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException exception)
             {
-                throw new Exception("Can't trim frames in StartTime column");
+                throw new Exception("Can't trim frames in StartTime column: " + field, exception);
             }
-            catch (FormatException)
+            catch (FormatException exception)
             {
-                throw new Exception("Wrong data format in StartTime column");
+                throw new Exception("Wrong data format in StartTime column: " + field, exception);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                throw new Exception("Can't parse StarTime column");
+                throw new Exception("Can't parse StarTime column: " + field, exception);
             }
         }
 
@@ -145,17 +142,17 @@ namespace Converter.Mvvm.Model
         {
             try
             {
-                string newStartTime = ReverseMergeFromEndLabelTo(program.StartLabel);
+                var newStartTime = ReverseMergeFromEndLabelTo(program.StartLabel);
                 if (!string.IsNullOrEmpty(newStartTime))
                 {
                     _outputProgram.StartTime = newStartTime;
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 throw new Exception(
                     "Error while merging the \"" + program.Title + "\".\n " +
-                    "Check the Start and End Labels in the Settings.");
+                    "Check the Start and End Labels in the Settings.", exception);
             }
         }
 
