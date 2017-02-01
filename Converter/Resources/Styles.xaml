@@ -199,7 +199,7 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="AutoGenerateColumns" Value="True" />
+        <Setter Property="AutoGenerateColumns" Value="False" />
         <Setter Property="BorderBrush" Value="Black" />
         <Setter Property="CanUserSortColumns" Value="False" />
         <Setter Property="HeadersVisibility" Value="All" />

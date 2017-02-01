@@ -19,7 +19,7 @@ namespace Converter.Mvvm.Model
             get { return _nameOfOutputFile; }
         }
 
-        public Save(string nameOfChosenFile, Worker worker)
+        public Save(string nameOfChosenFile, Worker worker = null)
         {
             _nameOfChosenFileWithoutExtension = Path.GetFileNameWithoutExtension(nameOfChosenFile);
             _nameOfOutputFile = Path.GetDirectoryName(nameOfChosenFile) + "\\Витяг_" + _nameOfChosenFileWithoutExtension + ".xlsx";

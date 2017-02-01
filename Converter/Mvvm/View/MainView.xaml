@@ -6,14 +6,14 @@
     xmlns:helpers="clr-namespace:Converter.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="CSV Converter"
-    Width="750"
     DataContext="{Binding Path=MainViewModel, Source={StaticResource ViewModelLocator}}"
     Icon="../../Images/logo.png"
-    SizeToContent="Height"
+    SizeToContent="WidthAndHeight"
     Style="{StaticResource WinMainStyle}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.Resources>
+        <CollectionViewSource x:Key="DtgCollectionViewSource" Source="{Binding OutputPrograms}" />
         <Image
             x:Key="SaveImage"
             Width="14"
@@ -211,9 +211,42 @@
                             <DataGrid
                                 CellStyle="{StaticResource DtgCellStyle}"
                                 ColumnHeaderStyle="{StaticResource DtgHeaderStyle}"
-                                ItemsSource="{Binding OutputPrograms}"
+                                ItemsSource="{Binding Source={StaticResource DtgCollectionViewSource}}"
                                 RowHeaderStyle="{StaticResource DtgRowHeaderStyle}"
-                                Style="{StaticResource DtgOutputStyle}" />
+                                Style="{StaticResource DtgOutputStyle}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Width="50"
+                                        Binding="{Binding StartTime}"
+                                        ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                                        Header="Start Time" />
+                                    <DataGridTextColumn
+                                        Width="50"
+                                        Binding="{Binding EndTime}"
+                                        ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                                        Header="End Time" />
+                                    <DataGridTextColumn
+                                        Width="250"
+                                        Binding="{Binding Title}"
+                                        ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                                        Header="Title" />
+                                    <DataGridTextColumn
+                                        Width="70"
+                                        Binding="{Binding Lang}"
+                                        ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                                        Header="Language" />
+                                    <DataGridTextColumn
+                                        Width="90"
+                                        Binding="{Binding Author}"
+                                        ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                                        Header="Author" />
+                                    <DataGridTextColumn
+                                        Width="90"
+                                        Binding="{Binding Presenter}"
+                                        ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                                        Header="Presenter" />
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </ScrollViewer>
                     </Grid>
                 </Border>
