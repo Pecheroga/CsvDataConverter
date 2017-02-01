@@ -55,9 +55,11 @@
         <Button
             Name="AddBtn"
             Grid.Row="0"
+            IsEnabled="{Binding IsAddBtnEnabled}"
             Grid.Column="0"
             helpers:FocusExtension.IsFocused="{Binding IsAddBtnFocus}"
             Command="{Binding AddProgramCommand}"
+            CommandParameter="{}"
             Content="Add"
             Style="{StaticResource BtnBaseStyle}"
             ToolTip="Add new program (Ctrl+A)" />

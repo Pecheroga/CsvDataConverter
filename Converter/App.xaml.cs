@@ -45,6 +45,7 @@ namespace Converter
                 if (exception.InnerException == null) return;
                 var message = string.Format("{0}\t{1}", DateTime.Now, exception.Message);
                 file.WriteLine(message);
+                file.WriteLine(exception.InnerException.Message);
                 file.WriteLine("Exception StackTrace:");
                 file.WriteLine(exception.InnerException.StackTrace);
             }

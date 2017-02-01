@@ -54,6 +54,7 @@ namespace Converter.Mvvm.ViewModel
         public Program SelectedProgram { get { return null; } }
         public int SelectedIndex { get; set; }
         public bool IsAddBtnFocus { get; set; }
+        public bool IsAddBtnEnabled { get; set; }
         public Visibility LoadingUserControlVisibility { get { return Visibility.Collapsed; } }
         public Visibility ProgramsVisibility { get { return Visibility.Visible; } }
         public RelayCommand AddProgramCommand { get { return null; } }

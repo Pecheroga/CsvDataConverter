@@ -13,7 +13,8 @@ namespace Converter.Mvvm.ViewModel.Settings
         ObservableCollection<Program> Programs { get; }
         Program SelectedProgram { get; }
         int SelectedIndex { get; set; }
-        bool IsAddBtnFocus { get; set; }
+        bool IsAddBtnFocus { get; }
+        bool IsAddBtnEnabled { get; }
         Visibility LoadingUserControlVisibility { get; }
         Visibility ProgramsVisibility { get; }
         RelayCommand AddProgramCommand { get; }
@@ -75,9 +76,20 @@ namespace Converter.Mvvm.ViewModel.Settings
         public bool IsAddBtnFocus
         {
             get { return _isAddBtnFocus; }
-            set
+            private set
             {
                 _isAddBtnFocus = value; 
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isAddBtnEnabled;
+        public bool IsAddBtnEnabled
+        {
+            get { return _isAddBtnEnabled; }
+            private set
+            {
+                _isAddBtnEnabled = value;
                 OnPropertyChanged();
             }
         }
@@ -88,14 +100,20 @@ namespace Converter.Mvvm.ViewModel.Settings
 
         public SettingsViewModel()
         {
+            SetDefaultControlState();
+
             _fromDb = new FromDb();
             AsyncGetProgramsFromDb();
             
-            AddProgramCommand = new RelayCommand(AddWindowShow, CanAddProgram);
+            AddProgramCommand = new RelayCommand(AddWindowShow);
             EditProgramCommand = new RelayCommand(EditWindowShow, CanEditProgram);
             RemoveProgramCommand = new RelayCommand(RemoveWindowShow, CanRemoveProgram);
-
+        }
+        
+        private void SetDefaultControlState()
+        {
             _programsVisibility = Visibility.Collapsed;
+            _isAddBtnEnabled = false;
         }
 
         public async void AsyncGetProgramsFromDb()
@@ -118,6 +136,7 @@ namespace Converter.Mvvm.ViewModel.Settings
             LoadingUserControlVisibility = Visibility.Collapsed;
             ProgramsVisibility = Visibility.Visible;
             SelectedIndex = -1;
+            IsAddBtnEnabled = true;
             IsAddBtnFocus = true;
         }
 
@@ -131,11 +150,6 @@ namespace Converter.Mvvm.ViewModel.Settings
                 Icon = MainWindowOfApplication.Icon
             };
             dialogView.ShowDialog();
-        }
-
-        private bool CanAddProgram(object obj)
-        {
-            return _programs != null;
         }
 
         private void EditWindowShow(object parameter)
