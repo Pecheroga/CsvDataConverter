@@ -12,6 +12,7 @@ namespace Converter.Mvvm.Model
         private readonly string _delimiter;
         private readonly int _encoding;
         private readonly bool _hasQuotes;
+        private readonly Worker _worker;
         private readonly List<string[]> _outputArray = new List<string[]>();
 
         public string[] ColumnNames
@@ -25,16 +26,18 @@ namespace Converter.Mvvm.Model
         public Parser(
             string file, 
             string delimiter = ";", 
-            int encoding = 1251, 
-            bool hasQuotes = false)
+            int encoding = 1251,
+            bool hasQuotes = false, 
+            Worker worker = null)
         {
             _file = file;
             _delimiter = delimiter;
             _encoding = encoding;
             _hasQuotes = hasQuotes;
+            _worker = worker;
         }
 
-        public void Start(Worker worker = null)
+        public void Start()
         {
             SetOutputArrayRowsAndColumns();
             using (var csv = new TextFieldParser(_file, Encoding.GetEncoding(_encoding)))
@@ -55,7 +58,7 @@ namespace Converter.Mvvm.Model
                         select field.Trim('/', '"'));
                     _outputArray.Add(line.ToArray());
                     line.Clear();
-                    if (worker != null) worker.OnProgressChanged(parsingRow++, RowsCount);
+                    if (_worker != null) _worker.OnProgressChanged(parsingRow++, RowsCount);
                 }
             }
         }

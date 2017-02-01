@@ -17,6 +17,7 @@ namespace Converter.Mvvm.ViewModel
         public Visibility SucessfulEndImgVisability { get { return Visibility.Visible; } }
         public int PercentValueProgressBar { get { return 50; } }
         public string NameOfOutputFile { get { return "Dummy"; } }
+        public string NameOfCurrentWorkPhase { get { return "Dummy..."; } }
         public SolidColorBrush ColorOfProgressText { get { return Brushes.LightGreen; } }
         public RelayCommand BrowseCommand { get { return null; } }
         public RelayCommand StartCommand { get { return null; } }

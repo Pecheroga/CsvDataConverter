@@ -7,9 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="CSV Converter"
     Width="750"
-    Height="770"
     DataContext="{Binding Path=MainViewModel, Source={StaticResource ViewModelLocator}}"
     Icon="../../Images/logo.png"
+    SizeToContent="Height"
     Style="{StaticResource WinMainStyle}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -146,19 +146,20 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock
                             Grid.Row="0"
                             Grid.Column="0"
-                            Grid.ColumnSpan="2"
                             Foreground="{Binding ColorOfProgressText}"
                             Style="{StaticResource TxblProgressStyle}">
                             <Run Text="Done: " />
                             <Run Text="{Binding PercentValueProgressBar, Mode=OneWay}" />
                             <Run>%</Run>
+                            <Run Text="{Binding NameOfCurrentWorkPhase, Mode=OneWay}" />
                         </TextBlock>
+
                         <ProgressBar
                             Grid.Row="1"
                             Grid.Column="0"
@@ -178,6 +179,7 @@
 
                 <Border
                     Grid.Row="1"
+                    Width="650"
                     Height="550"
                     Style="{StaticResource BrdrContainerOfOutputDtg}">
                     <Grid Visibility="{Binding ExcelDataContainerVisability}">
@@ -186,7 +188,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="8*" />
                         </Grid.ColumnDefinitions>
                         <Button

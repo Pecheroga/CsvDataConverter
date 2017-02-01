@@ -9,6 +9,7 @@ namespace Converter.Mvvm.Model
     internal sealed class Converter
     {
         private readonly List<string[]> _convertibleArray;
+        private readonly Worker _worker;
         private bool _toNextRowWithoutSave;
         private ObservableCollection<Program> _programs;
         private SourceProgram _newSourceProgram;
@@ -16,17 +17,26 @@ namespace Converter.Mvvm.Model
         private readonly ObservableCollection<OutputProgram> _outputPrograms 
             = new ObservableCollection<OutputProgram>();
 
-        public Converter(List<string[]> convertibleArray)
+        public Converter(List<string[]> convertibleArray, Worker worker = null)
         {
             _convertibleArray = convertibleArray;
+            _worker = worker;
         }
 
-        public void ConvertSourceToOutputProgram(Worker worker = null)
+        public void GetProgramsFromDb()
         {
-            GetProgramsFromDb();
+            if (_worker != null) _worker.OnProgressChanged(1, 2);
+            IFromDb fromDb = new FromDb();
+            fromDb.FillPrograms();
+            _programs = fromDb.GetPrograms();
+            if (_worker != null) _worker.OnProgressChanged(2, 2);
+        }
+
+        public void ConvertSourceToOutputProgram()
+        {
             for (var parsingRow = 1; parsingRow < _convertibleArray.Count; parsingRow++)
             {
-                if (worker != null) worker.OnProgressChanged(parsingRow, _convertibleArray.Count);
+                if (_worker != null) _worker.OnProgressChanged(parsingRow, _convertibleArray.Count - 1);
 
                 _toNextRowWithoutSave = false;
                 FillNewSourceProgramFrom(parsingRow);
@@ -34,13 +44,6 @@ namespace Converter.Mvvm.Model
 
                 AddToOutputPrograms(_newSourceProgram);
             }
-        }
-
-        private void GetProgramsFromDb()
-        {
-            IFromDb fromDb = new FromDb();
-            fromDb.FillPrograms();
-            _programs = fromDb.GetPrograms();
         }
         
         private void FillNewSourceProgramFrom(int parsingRow)

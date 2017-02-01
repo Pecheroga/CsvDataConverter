@@ -9,8 +9,9 @@ namespace Converter.Mvvm.Model
     {
         private readonly string _nameOfChosenFileWithoutExtension;
         private readonly string _nameOfOutputFile;
+        private readonly Worker _worker;
         private ObservableCollection<OutputProgram> _outputPrograms;
-        private readonly ExcelAppBlank _outputExcelApp;
+        private readonly ExcelAppBlank _outputExcelApp = new ExcelAppBlank();
         private readonly Worksheet _outputFirstWorksheet;
         
         public string NameOfOutputFile
@@ -18,11 +19,12 @@ namespace Converter.Mvvm.Model
             get { return _nameOfOutputFile; }
         }
 
-        public Save(string nameOfChosenFile)
+        public Save(string nameOfChosenFile, Worker worker)
         {
             _nameOfChosenFileWithoutExtension = Path.GetFileNameWithoutExtension(nameOfChosenFile);
             _nameOfOutputFile = Path.GetDirectoryName(nameOfChosenFile) + "\\Витяг_" + _nameOfChosenFileWithoutExtension + ".xlsx";
-            _outputExcelApp = new ExcelAppBlank();
+            _worker = worker;
+
             _outputFirstWorksheet = _outputExcelApp.GetFirstWorksheet();
             _outputFirstWorksheet.Name = "Витяг_" + _nameOfChosenFileWithoutExtension;
         }
@@ -54,6 +56,7 @@ namespace Converter.Mvvm.Model
 
             for (var row = 0; row < _outputPrograms.Count; row++)
             {
+                if (_worker != null) _worker.OnProgressChanged(row, _outputPrograms.Count - 1);
                 for (var column = 0; column < 6; column++)
                 {
                     switch (column)

@@ -21,6 +21,7 @@ namespace Converter.Mvvm.ViewModel
         Visibility ExcelDataContainerVisability { get; }
         Visibility SucessfulEndImgVisability { get; }
         int PercentValueProgressBar { get; }
+        string NameOfCurrentWorkPhase { get; }
         string NameOfOutputFile { get; }
         SolidColorBrush ColorOfProgressText { get; }
         RelayCommand BrowseCommand { get; }
@@ -95,6 +96,11 @@ namespace Converter.Mvvm.ViewModel
         public string NameOfOutputFile
         {
             get { return _worker.NameOfOutputFile; }
+        }
+
+        public string NameOfCurrentWorkPhase
+        {
+            get { return _worker.NameOfCurrentWorkPhase; }
         }
 
         private SolidColorBrush _colorOfProgressText;

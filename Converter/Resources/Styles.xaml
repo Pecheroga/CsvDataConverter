@@ -82,7 +82,7 @@
 
     <Style x:Key="TxblProgressStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="Foreground" Value="{StaticResource MainTextFg}" />
-        <Setter Property="Width" Value="100" />
+        <Setter Property="Width" Value="Auto" />
         <Setter Property="Height" Value="12" />
         <Setter Property="Margin" Value="5,0,0,0" />
         <Setter Property="HorizontalAlignment" Value="Left" />
