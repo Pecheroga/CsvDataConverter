@@ -176,7 +176,6 @@
                             Visibility="{Binding SucessfulEndImgVisability}" />
                     </Grid>
                 </Grid>
-
                 <Border
                     Grid.Row="1"
                     Width="650"
@@ -202,52 +201,49 @@
                             Grid.Column="1"
                             Style="{StaticResource TxbFileNameStyle}"
                             Text="{Binding NameOfOutputFile, Mode=OneWay}" />
-                        <ScrollViewer
+                        <DataGrid
                             Grid.Row="1"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Height="500"
-                            Style="{StaticResource ScrlVwrStyle}">
-                            <DataGrid
-                                CellStyle="{StaticResource DtgCellStyle}"
-                                ColumnHeaderStyle="{StaticResource DtgHeaderStyle}"
-                                ItemsSource="{Binding Source={StaticResource DtgCollectionViewSource}}"
-                                RowHeaderStyle="{StaticResource DtgRowHeaderStyle}"
-                                Style="{StaticResource DtgOutputStyle}">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn
-                                        Width="50"
-                                        Binding="{Binding StartTime}"
-                                        ElementStyle="{StaticResource DtgTextColumnElementStyle}"
-                                        Header="Start Time" />
-                                    <DataGridTextColumn
-                                        Width="50"
-                                        Binding="{Binding EndTime}"
-                                        ElementStyle="{StaticResource DtgTextColumnElementStyle}"
-                                        Header="End Time" />
-                                    <DataGridTextColumn
-                                        Width="250"
-                                        Binding="{Binding Title}"
-                                        ElementStyle="{StaticResource DtgTextColumnElementStyle}"
-                                        Header="Title" />
-                                    <DataGridTextColumn
-                                        Width="70"
-                                        Binding="{Binding Lang}"
-                                        ElementStyle="{StaticResource DtgTextColumnElementStyle}"
-                                        Header="Language" />
-                                    <DataGridTextColumn
-                                        Width="90"
-                                        Binding="{Binding Author}"
-                                        ElementStyle="{StaticResource DtgTextColumnElementStyle}"
-                                        Header="Author" />
-                                    <DataGridTextColumn
-                                        Width="90"
-                                        Binding="{Binding Presenter}"
-                                        ElementStyle="{StaticResource DtgTextColumnElementStyle}"
-                                        Header="Presenter" />
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </ScrollViewer>
+                            CellStyle="{StaticResource DtgCellStyle}"
+                            ColumnHeaderStyle="{StaticResource DtgHeaderStyle}"
+                            ItemsSource="{Binding Source={StaticResource DtgCollectionViewSource}}"
+                            RowHeaderStyle="{StaticResource DtgRowHeaderStyle}"
+                            Style="{StaticResource DtgOutputStyle}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn
+                                    Width="55"
+                                    Binding="{Binding StartTime}"
+                                    ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                                    Header="Start Time" />
+                                <DataGridTextColumn
+                                    Width="55"
+                                    Binding="{Binding EndTime}"
+                                    ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                                    Header="End Time" />
+                                <DataGridTextColumn
+                                    Width="250"
+                                    Binding="{Binding Title}"
+                                    ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                                    Header="Title" />
+                                <DataGridTextColumn
+                                    Width="70"
+                                    Binding="{Binding Lang}"
+                                    ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                                    Header="Language" />
+                                <DataGridTextColumn
+                                    Width="90"
+                                    Binding="{Binding Author}"
+                                    ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                                    Header="Author" />
+                                <DataGridTextColumn
+                                    Width="90"
+                                    Binding="{Binding Presenter}"
+                                    ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                                    Header="Presenter" />
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </Grid>
                 </Border>
             </Grid>

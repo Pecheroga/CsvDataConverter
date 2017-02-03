@@ -68,7 +68,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Helpers\FocusAction.cs" />
     <Compile Include="Mvvm\Model\Parser.cs" />
     <Compile Include="Mvvm\ViewModel\MockViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\ViewModelLocator.cs" />
