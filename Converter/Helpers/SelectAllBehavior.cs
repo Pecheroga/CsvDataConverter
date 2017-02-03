@@ -16,13 +16,10 @@ namespace Converter.Helpers
             AssociatedObject.GotFocus += AssociatedObject_GotFocus;
             base.OnAttached();
         }
-
+        
         private void AssociatedObject_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (TxtbEditStarted != null)
-            {
-                TxtbEditStarted.Invoke(this, AssociatedObject);
-            }
+            if (TxtbEditStarted != null) TxtbEditStarted.Invoke(this, AssociatedObject);
             base.OnDetaching();
         }
 

@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:helpers="clr-namespace:Converter.Helpers"
-    xmlns:userControls="clr-namespace:Converter.UserControls"
     Title="{Binding WindowTitle}"
     DataContext="{Binding Path=AddDialogViewModel, Source={StaticResource ViewModelLocator}}"
     Style="{StaticResource WinAddEditStyle}"
@@ -14,9 +13,6 @@
     </Window.InputBindings>
     <Window.Resources>
         <helpers:SelectedProgramToListConverter x:Key="SelectedProgramToListConverter" />
-        <DataTemplate x:Key="AddDataTemplate">
-            <userControls:InputFields />
-        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -27,7 +23,7 @@
             Name="EditItc"
             Grid.Row="0"
             BindingGroup="{Binding EditBindingGroup}"
-            ItemTemplate="{StaticResource AddDataTemplate}"
+            ItemTemplate="{StaticResource DttmpInputFields}"
             ItemsSource="{Binding SelectedProgram, Converter={StaticResource SelectedProgramToListConverter}, Mode=OneWay}"
             Style="{StaticResource ItmCtrlStyle}" />
         <StackPanel Grid.Row="1" Style="{StaticResource StckPnlInputBtnStyle}">

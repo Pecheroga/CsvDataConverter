@@ -68,6 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\FocusAction.cs" />
     <Compile Include="Mvvm\Model\Parser.cs" />
     <Compile Include="Mvvm\ViewModel\MockViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\ViewModelLocator.cs" />
@@ -99,9 +100,6 @@
     </Compile>
     <Compile Include="Mvvm\View\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\InputFields.xaml.cs">
-      <DependentUpon>InputFields.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Loading.xaml.cs">
       <DependentUpon>Loading.xaml</DependentUpon>
@@ -149,11 +147,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Styles.xaml">
+    <Page Include="Resources\InputFields.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\InputFields.xaml">
+    <Page Include="Resources\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
