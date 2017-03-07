@@ -13,6 +13,8 @@ namespace Converter
         public App()
         {
             Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
+            var myCommonAppFolder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            AppDomain.CurrentDomain.SetData("DataDirectory", myCommonAppFolder + @"\CSV Data Converter");
         }
         
         private static void Current_DispatcherUnhandledException(
@@ -40,14 +42,19 @@ namespace Converter
 
         private static void Logger(Exception exception)
         {
-            using (var file = new StreamWriter(Environment.CurrentDirectory + "\\log.txt", true))
+            WriteLogToFile(exception.InnerException ?? exception);
+        }
+
+        private static void WriteLogToFile(Exception exception)
+        {
+            var assamblyDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            using (var file = new StreamWriter(assamblyDirectory + "\\log.txt", true))
             {
-                if (exception.InnerException == null) return;
                 var message = string.Format("{0}\t{1}", DateTime.Now, exception.Message);
                 file.WriteLine(message);
-                file.WriteLine(exception.InnerException.Message);
+                file.WriteLine(exception.Message);
                 file.WriteLine("Exception StackTrace:");
-                file.WriteLine(exception.InnerException.StackTrace);
+                file.WriteLine(exception.StackTrace);
             }
         }
     }

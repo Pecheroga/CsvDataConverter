@@ -101,15 +101,18 @@ namespace Converter.Mvvm.ViewModel.Settings
         public SettingsViewModel()
         {
             SetDefaultControlState();
-
             _fromDb = new FromDb();
             AsyncGetProgramsFromDb();
-            
+            InitializeCommands();
+        }
+
+        private void InitializeCommands()
+        {
             AddProgramCommand = new RelayCommand(AddWindowShow);
             EditProgramCommand = new RelayCommand(EditWindowShow, CanEditProgram);
             RemoveProgramCommand = new RelayCommand(RemoveWindowShow, CanRemoveProgram);
         }
-        
+
         private void SetDefaultControlState()
         {
             _programsVisibility = Visibility.Collapsed;

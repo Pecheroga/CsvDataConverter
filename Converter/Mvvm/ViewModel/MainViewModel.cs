@@ -124,6 +124,15 @@ namespace Converter.Mvvm.ViewModel
 
         public MainViewModel()
         {
+            _worker = new Worker();
+
+            InitializeCommands();
+            WireUpEventHandlers();
+            SetDefaultControlsState();
+        }
+
+        private void InitializeCommands()
+        {
             BrowseCommand = new RelayCommand(BrowseSourceFile, CanBrowseSourceFile);
             StartCommand = new RelayCommand(StartAsyncParsing, CanStartAsyncParsing);
             CancelCommand = new RelayCommand(CancelParsing, CanCancelParsing);
@@ -131,12 +140,6 @@ namespace Converter.Mvvm.ViewModel
             SaveAsCommand = new RelayCommand(SaveAs, CanSaveAs);
             SettingsWindowShowCommand = new RelayCommand(SettingsWindowShow);
             AboutWindowShowCommand = new RelayCommand(AboutWindowShow);
-
-            _worker = new Worker();
-            _worker.PropertyChanged += _worker_PropertyChanged;
-            _worker.MainWorker.RunWorkerCompleted += MainWorker_RunWorkerCompleted;
-
-            SetDefaultControlsState();
         }
 
         private void BrowseSourceFile(object parameter)
@@ -246,18 +249,15 @@ namespace Converter.Mvvm.ViewModel
             aboutView.ShowDialog();
         }
 
+        private void WireUpEventHandlers()
+        {
+            _worker.PropertyChanged += _worker_PropertyChanged;
+            _worker.MainWorker.RunWorkerCompleted += MainWorker_RunWorkerCompleted;
+        }
+
         private void _worker_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(e.PropertyName);
-        }
-
-        private void SetDefaultControlsState()
-        {
-            _worker.PercentValueProgressBar = 0;
-            ColorOfProgressText = Brushes.Azure;
-            IsBrowseButtonFocused = true;
-            ExcelDataContainerVisability = Visibility.Hidden;
-            SucessfulEndImgVisability = Visibility.Hidden;
         }
 
         private void MainWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -271,6 +271,15 @@ namespace Converter.Mvvm.ViewModel
                 throw new Exception(defaultMessage, e.Error);
             }
             SetParsingComletedControlsState();
+        }
+
+        private void SetDefaultControlsState()
+        {
+            _worker.PercentValueProgressBar = 0;
+            ColorOfProgressText = Brushes.Azure;
+            IsBrowseButtonFocused = true;
+            ExcelDataContainerVisability = Visibility.Hidden;
+            SucessfulEndImgVisability = Visibility.Hidden;
         }
 
         private void SetParsingComletedControlsState()
