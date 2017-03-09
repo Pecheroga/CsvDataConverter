@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -65,11 +66,25 @@ namespace Converter.Mvvm.Model
 
         private void SetOutputArrayRowsAndColumns()
         {
-            var notParsedArray = File.ReadAllLines(_file);
+            var notParsedArray = TryReadAllLinesFormFile();
             RowsCount = notParsedArray.Length;
             ColumnsCount = notParsedArray[0].Length;
         }
-        
+
+        private string[] TryReadAllLinesFormFile()
+        {
+            try
+            {
+                return File.ReadAllLines(_file);
+            }
+            catch (IOException exception)
+            {
+                var message = "Can not read source file. " + Environment.NewLine +
+                              "May be it has been opened in another program or deleted";
+                throw new Exception(message, exception);
+            }
+        }
+
         public List<string[]> GetOutputArray()
         {
             return _outputArray;
