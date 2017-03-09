@@ -83,8 +83,17 @@
                 InputGestureText="" />
             <MenuItem
                 Command="{Binding AboutWindowShowCommand}"
-                Header="_About"
-                InputGestureText="" />
+                Header="_Help"
+                InputGestureText="">
+                <MenuItem
+                    Command="{Binding ViewLogCommand}"
+                    Header="_View log"
+                    InputGestureText="" />
+                <MenuItem
+                    Command="{Binding AboutWindowShowCommand}"
+                    Header="_About"
+                    InputGestureText="" />
+            </MenuItem>
         </Menu>
         <Border Grid.Row="1">
             <Grid HorizontalAlignment="Center">

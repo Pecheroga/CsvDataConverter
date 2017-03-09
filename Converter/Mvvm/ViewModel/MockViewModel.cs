@@ -26,6 +26,7 @@ namespace Converter.Mvvm.ViewModel
         public RelayCommand SaveAsCommand { get { return null; } }
         public RelayCommand SettingsWindowShowCommand { get { return null; } }
         public RelayCommand AboutWindowShowCommand { get { return null; } }
+        public RelayCommand ViewLogCommand { get { return null; } }
         public string WindowTitle { get { return "Dummy"; } }
         public RelayCommand CloseWindowCommand { get { return null; } }
 
@@ -61,6 +62,7 @@ namespace Converter.Mvvm.ViewModel
         public RelayCommand EditProgramCommand { get { return null; } }
         public RelayCommand RemoveProgramCommand { get { return null; } }
         public string WindowTitle { get { return "Dummy"; } }
+        public RelayCommand ViewLogCommand { get { return null; } }
         public RelayCommand CloseWindowCommand { get { return null; } }
 
         public MockSettingsViewModel()
@@ -103,6 +105,7 @@ namespace Converter.Mvvm.ViewModel
         }
 
         public string WindowTitle { get { return "Dummy"; } }
+        public RelayCommand ViewLogCommand { get { return null; } }
         public RelayCommand CloseWindowCommand { get { return null; } }
         public RelayCommand OkCommand { get { return null; } }
         public BindingGroup EditBindingGroup { get { return null; } }
@@ -118,6 +121,7 @@ namespace Converter.Mvvm.ViewModel
     {
         public string ConfirmText { get { return "Dummy"; } }
         public string WindowTitle { get { return "Dummy"; } }
+        public RelayCommand ViewLogCommand { get { return null; } }
         public RelayCommand CloseWindowCommand { get { return null; } }
         public Program SelectedProgram { get { return null; } }
         public RelayCommand OkCommand { get { return null; } }

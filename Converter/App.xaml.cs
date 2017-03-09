@@ -21,8 +21,8 @@ namespace Converter
             object sender, 
             System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            ExceptionWindowShow(e.Exception.Message);
             Logger(e.Exception);
+            ExceptionWindowShow(e.Exception.Message);
             e.Handled = true;
         }
 
@@ -47,8 +47,8 @@ namespace Converter
 
         private static void WriteLogToFile(Exception exception)
         {
-            var assamblyDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            using (var file = new StreamWriter(assamblyDirectory + "\\log.txt", true))
+            var dataDirectory = AppDomain.CurrentDomain.GetData("DataDirectory");
+            using (var file = new StreamWriter(dataDirectory + @"\log.txt", true))
             {
                 var message = string.Format("{0}\t{1}", DateTime.Now, exception.Message);
                 file.WriteLine(message);

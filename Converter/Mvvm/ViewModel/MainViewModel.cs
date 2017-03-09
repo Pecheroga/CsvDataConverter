@@ -37,7 +37,7 @@ namespace Converter.Mvvm.ViewModel
     {
         private bool _canSaveAs;
         private bool _canOpenOutputFile;
-
+        
         private readonly Worker _worker;
         public ObservableCollection<OutputProgram> OutputPrograms
         {
@@ -121,7 +121,7 @@ namespace Converter.Mvvm.ViewModel
         public RelayCommand SaveAsCommand { get; private set; }
         public RelayCommand SettingsWindowShowCommand { get; private set; }
         public RelayCommand AboutWindowShowCommand { get; private set; }
-
+        
         public MainViewModel()
         {
             _worker = new Worker();

@@ -32,6 +32,12 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Button
+                Name="ViewLogBtn"
+                Command="{Binding ViewLogCommand}"
+                Content="View log"
+                Style="{StaticResource BtnBaseStyle}"
+                ToolTip="Close" />
+            <Button
                 Name="CloseBtn"
                 Command="{Binding CloseWindowCommand}"
                 Content="Close"
