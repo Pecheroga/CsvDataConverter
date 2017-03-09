@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using Converter.Helpers;
@@ -121,7 +122,15 @@ namespace Converter.Mvvm.ViewModel.Settings
 
         public async void AsyncGetProgramsFromDb()
         {
-            await GetProgramsFromDb();
+            try
+            {
+                await GetProgramsFromDb();
+            }
+            catch (Exception exception)
+            {
+                CloseWindow(null);
+                throw new Exception(exception.Message, exception);
+            }
             SetControlsLoadedState();
         }
 
