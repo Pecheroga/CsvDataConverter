@@ -79,11 +79,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ProgramsDb.mdf">
+    <None Include="data.mdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Include="ProgramsDb_log.ldf">
-      <DependentUpon>ProgramsDb.mdf</DependentUpon>
+    <Content Include="data_log.ldf">
+      <DependentUpon>data.mdf</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

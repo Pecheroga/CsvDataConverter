@@ -111,7 +111,7 @@
               Id="DataBase"
               Guid="{578C567D-86D1-43AA-B486-152582CCF952}">
               <File 
-                Source="$(var.Converter.TargetDir)\ProgramsDB.mdf"
+                Source="$(var.Converter.TargetDir)\data.mdf"
                 KeyPath="yes"
                 ReadOnly="no"/>
             </Component>
@@ -119,7 +119,7 @@
               Id="DataBaseLog"
               Guid="{6F39619F-DC96-4D3B-BC99-6433B709B4F6}">
               <File 
-                Source="$(var.Converter.TargetDir)\ProgramsDB_log.ldf"
+                Source="$(var.Converter.TargetDir)\data_log.ldf"
                 KeyPath="yes"
                 ReadOnly="no"/>
             </Component>
