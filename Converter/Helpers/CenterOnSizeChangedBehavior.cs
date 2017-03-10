@@ -2,7 +2,7 @@
 
 namespace Converter.Helpers
 {
-    public static class CenterOnSizeChangedBehavior
+    internal sealed class CenterOnSizeChangedBehavior
     {
         public static readonly DependencyProperty CenterOnSizeChangeProperty =
             DependencyProperty.RegisterAttached(

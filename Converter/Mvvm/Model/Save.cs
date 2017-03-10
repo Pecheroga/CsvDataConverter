@@ -89,7 +89,8 @@ namespace Converter.Mvvm.Model
             range.Value2 = headerToCells;
             range = _outputExcelApp.GetFirstWorksheetRange("A2", "F2");
             range.Value2 = columnNamesToCells;
-            range = _outputExcelApp.GetFirstWorksheetRange("A3", "F" + (_outputPrograms.Count + 2));
+            var lastRowOfData = (_outputPrograms.Count + 2).ToString();
+            range = _outputExcelApp.GetFirstWorksheetRange("A3", "F" + lastRowOfData);
             range.Value2 = outputProgramsToCells;
         }
 

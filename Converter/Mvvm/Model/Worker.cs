@@ -11,8 +11,6 @@ using DataSource.Base;
 
 namespace Converter.Mvvm.Model
 {
-    internal delegate void LoadNumberDelegate(int number);
-
     internal sealed class Worker : Notifier
     {
         private string _nameOfChosenFile;
@@ -21,7 +19,6 @@ namespace Converter.Mvvm.Model
         private const int WorkStepsCount = 4;
         private const int WorkStepValue = 100 / WorkStepsCount;
         private List<string[]> _parsedData;
-        private LoadNumberDelegate _tempToOutputProgramsRef;
         private DispatcherOperation _programsLoadingProcess;
         private readonly MainView _mainView 
             = Application.Current.Windows.OfType<MainView>().Single();
@@ -163,19 +160,17 @@ namespace Converter.Mvvm.Model
 
         private void RunOutputProgramsLoading()
         {
-            _tempToOutputProgramsRef = TempToOutputPrograms;
-            
-            _programsLoadingProcess = 
-                _mainView.Dispatcher.BeginInvoke(DispatcherPriority.Background, _tempToOutputProgramsRef, 0);
+            _programsLoadingProcess =
+                _mainView.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => TempToOutputPrograms(0)));
         }
 
         private void TempToOutputPrograms(int number)
         {
             OutputPrograms.Add(_tempPrograms[number]);
-
+            
             if (number >= _tempPrograms.Count - 1) return;
-            _programsLoadingProcess =
-                _mainView.Dispatcher.BeginInvoke(DispatcherPriority.Background, _tempToOutputProgramsRef, ++number);
+            _programsLoadingProcess = _mainView.Dispatcher.BeginInvoke(
+                DispatcherPriority.Background, new Action(() => TempToOutputPrograms(++number)));
         }
     }
 }
