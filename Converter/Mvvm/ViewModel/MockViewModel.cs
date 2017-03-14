@@ -4,7 +4,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using Converter.Helpers;
 using Converter.Mvvm.ViewModel.Settings;
-using DataSource.Base;
+using DataSource.Structure;
 
 namespace Converter.Mvvm.ViewModel
 {
@@ -43,6 +43,7 @@ namespace Converter.Mvvm.ViewModel
                     Author = "Dummy Dummy",
                     Lang = "Dummy Dummy",
                     Presenter = "Dummy Dummy",
+                    Subject = "Dummy Dummy"
                 };
                 OutputPrograms.Add(outputProgram);
             }
@@ -78,7 +79,8 @@ namespace Converter.Mvvm.ViewModel
                     Lang = "Dummy Dummy",
                     Presenter = "Dummy Dummy",
                     EndLabel = "Dummy Dummy",
-                    StartLabel = "Dummy Dummy"
+                    StartLabel = "Dummy Dummy",
+                    Subject = "Dummy Dummy"
                 };
                 Programs.Add(program);
             }
@@ -100,6 +102,7 @@ namespace Converter.Mvvm.ViewModel
                     EndLabel = "Dummy",
                     Lang = "Dummy",
                     Presenter = "Dummy",
+                    Subject = "Dummy"
                 };
             }
         }

@@ -1,4 +1,4 @@
-﻿namespace DataSource.Base
+﻿namespace DataSource.Structure
 {
     public interface ISourceProgram
     {

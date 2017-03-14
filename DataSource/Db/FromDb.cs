@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Data.SqlClient;
-using DataSource.Base;
+using DataSource.Structure;
 
 namespace DataSource.Db
 {
@@ -36,6 +35,7 @@ namespace DataSource.Db
                         {
                             Id = (int)dataReader["Id"],
                             Title = dataReader["Title"].ToString(),
+                            Subject = dataReader["Subject"].ToString(),
                             StartLabel = dataReader["StartLabel"].ToString(),
                             EndLabel = dataReader["EndLabel"].ToString(),
                             Lang = dataReader["Lang"].ToString(),

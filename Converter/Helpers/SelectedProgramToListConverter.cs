@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Data;
-using DataSource.Base;
+using DataSource.Structure;
 
 namespace Converter.Helpers
 {

@@ -8,7 +8,7 @@ using System.Windows.Media;
 using Converter.Helpers;
 using Converter.Mvvm.Model;
 using Converter.Mvvm.View;
-using DataSource.Base;
+using DataSource.Structure;
 using Microsoft.Win32;
 
 namespace Converter.Mvvm.ViewModel

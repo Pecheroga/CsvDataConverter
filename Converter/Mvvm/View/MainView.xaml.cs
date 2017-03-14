@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Converter.Mvvm.ViewModel;
-using DataSource.Base;
 
 namespace Converter.Mvvm.View
 {

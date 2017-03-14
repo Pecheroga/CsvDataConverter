@@ -55,12 +55,12 @@
         <Button
             Name="AddBtn"
             Grid.Row="0"
-            IsEnabled="{Binding IsAddBtnEnabled}"
             Grid.Column="0"
             helpers:FocusExtension.IsFocused="{Binding IsAddBtnFocus}"
             Command="{Binding AddProgramCommand}"
             CommandParameter="{}"
             Content="Add"
+            IsEnabled="{Binding IsAddBtnEnabled}"
             Style="{StaticResource BtnBaseStyle}"
             ToolTip="Add new program (Ctrl+A)" />
         <Button
@@ -127,6 +127,10 @@
                             Width="100"
                             Binding="{Binding Presenter}"
                             Header="Presenter" />
+                        <DataGridTextColumn
+                            Width="100"
+                            Binding="{Binding Subject}"
+                            Header="Subject" />
                     </DataGrid.Columns>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">

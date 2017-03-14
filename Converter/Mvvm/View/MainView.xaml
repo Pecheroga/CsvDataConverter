@@ -187,7 +187,7 @@
                 </Grid>
                 <Border
                     Grid.Row="1"
-                    Width="650"
+                    Width="700"
                     Height="550"
                     Style="{StaticResource BrdrContainerOfOutputDtg}">
                     <Grid Visibility="{Binding ExcelDataContainerVisability}">
@@ -232,7 +232,7 @@
                                     ElementStyle="{StaticResource DtgTextColumnElementStyle}"
                                     Header="End Time" />
                                 <DataGridTextColumn
-                                    Width="250"
+                                    Width="210"
                                     Binding="{Binding Title}"
                                     ElementStyle="{StaticResource DtgTextColumnElementStyle}"
                                     Header="Title" />
@@ -251,6 +251,11 @@
                                     Binding="{Binding Presenter}"
                                     ElementStyle="{StaticResource DtgTextColumnElementStyle}"
                                     Header="Presenter" />
+                                <DataGridTextColumn
+                                    Width="90"
+                                    Binding="{Binding Subject}"
+                                    ElementStyle="{StaticResource DtgTextColumnElementStyle}"
+                                    Header="Subject" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

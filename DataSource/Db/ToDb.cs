@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Linq;
-using DataSource.Base;
+using DataSource.Structure;
 
 namespace DataSource.Db
 {
@@ -28,9 +28,9 @@ namespace DataSource.Db
             CheckFieldsLenthOf(program);
             _query = "SET IDENTITY_INSERT Programs ON " +
                 "INSERT INTO " +
-                "Programs(Id, Title, StartLabel, EndLabel, Lang, Author, Presenter) " +
+                "Programs(Id, Title, Subject, StartLabel, EndLabel, Lang, Author, Presenter) " +
                 "VALUES " +
-                "(@Id, @Title, @StartLabel, @EndLabel, @Lang, @Author, @Presenter)";
+                "(@Id, @Title, @Subject, @StartLabel, @EndLabel, @Lang, @Author, @Presenter)";
             ExecuteNonQuery();
         }
 
@@ -40,6 +40,7 @@ namespace DataSource.Db
             CheckFieldsLenthOf(program);
             _query = "UPDATE Programs SET " +
                 "Title = @Title, " +
+                "Subject = @Subject, " +
                 "StartLabel = @StartLabel, " +
                 "EndLabel = @EndLabel, " +
                 "Lang = @Lang, " +
@@ -47,6 +48,18 @@ namespace DataSource.Db
                 "Presenter = @Presenter " +
                 "WHERE Id = @Id";
             ExecuteNonQuery();
+        }
+
+        private static void CheckFieldsLenthOf(Program program)
+        {
+            foreach (var propertyInfo in from propertyInfo in program.GetType().GetProperties()
+                                         let propertyValue = propertyInfo.GetValue(program, null)
+                                         as string
+                                         where propertyValue != null && propertyValue.Length > 50
+                                         select propertyInfo)
+            {
+                throw new Exception(string.Format("Lenth of the field : \"{0}\" must be less then 50 chars", propertyInfo));
+            }
         }
 
         public void Remove(Program program)
@@ -66,6 +79,7 @@ namespace DataSource.Db
                 {
                     command.Parameters.AddWithValue("@Id", _program.Id);
                     command.Parameters.AddWithValue("@Title", _program.Title);
+                    command.Parameters.AddWithValue("@Subject", _program.Subject);
                     command.Parameters.AddWithValue("@StartLabel", _program.StartLabel);
                     command.Parameters.AddWithValue("@EndLabel", _program.EndLabel);
                     command.Parameters.AddWithValue("@Lang", _program.Lang);
@@ -74,18 +88,6 @@ namespace DataSource.Db
 
                     command.ExecuteNonQuery();
                 }
-            }
-        }
-
-        private static void CheckFieldsLenthOf(Program program)
-        {
-            foreach (var propertyInfo in from propertyInfo in program.GetType().GetProperties()
-                                         let propertyValue = propertyInfo.GetValue(program, null)
-                                         as string
-                                         where propertyValue != null && propertyValue.Length > 50
-                                         select propertyInfo)
-            {
-                throw new Exception(string.Format("Lenth of the field : \"{0}\" must be less then 50 chars", propertyInfo));
             }
         }
     }

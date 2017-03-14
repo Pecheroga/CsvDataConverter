@@ -58,9 +58,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\OutputProgram.cs" />
-    <Compile Include="Base\Program.cs" />
-    <Compile Include="Base\SourceProgram.cs" />
+    <Compile Include="Structure\OutputProgram.cs" />
+    <Compile Include="Structure\Program.cs" />
+    <Compile Include="Structure\ProgramBase.cs" />
+    <Compile Include="Structure\SourceProgram.cs" />
     <Compile Include="Db\ConnectionString.cs" />
     <Compile Include="Db\FromDb.cs" />
     <Compile Include="Db\ToDb.cs" />

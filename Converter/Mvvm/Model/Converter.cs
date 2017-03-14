@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DataSource.Db;
-using DataSource.Base;
+using DataSource.Structure;
 
 namespace Converter.Mvvm.Model
 {
@@ -55,14 +55,14 @@ namespace Converter.Mvvm.Model
                 {
                     case "Start Time":
                         var sourceStartTime = _convertibleArray[parsingRow][parsingColumn];
-                        _newSourceProgram.SourceStartTime = TryParseToDoubleTotalDays(sourceStartTime);
+                        _newSourceProgram.SourceStartTime = TryParseTotalDaysToDouble(sourceStartTime);
                         break;
                     case "Title":
                         _newSourceProgram.SourceTitle = _convertibleArray[parsingRow][parsingColumn];
                         break;
                     case "Duration":
                         var sourceDuration = _convertibleArray[parsingRow][parsingColumn];
-                        var duration = TryParseToDoubleTotalDays(sourceDuration);
+                        var duration = TryParseTotalDaysToDouble(sourceDuration);
                         if (duration.Equals(0)) _toNextRowWithoutSave = true;
                         _newSourceProgram.SourceDuration = duration;
                         break;
@@ -72,11 +72,11 @@ namespace Converter.Mvvm.Model
             }
         }
 
-        private static double TryParseToDoubleTotalDays(string field)
+        private static double TryParseTotalDaysToDouble(string field)
         {
             try
             {
-                return ParseToDoubleTotalDays(field);
+                return ParseTotalDaysToDouble(field);
             }
             catch (ArgumentOutOfRangeException exception)
             {
@@ -92,7 +92,7 @@ namespace Converter.Mvvm.Model
             }
         }
 
-        private static double ParseToDoubleTotalDays(string field)
+        private static double ParseTotalDaysToDouble(string field)
         {
             TimeSpan t;
             const int lengthWithFrames = 11;
@@ -116,6 +116,7 @@ namespace Converter.Mvvm.Model
                 StartTime = TimeSpan.FromDays(sourceProgram.SourceStartTime).ToString(),
                 EndTime = TimeSpan.FromDays(sourceProgram.SourceStartTime + sourceProgram.SourceDuration).ToString(),
                 Title = sourceProgram.SourceTitle,
+                Subject = "-------------",
                 Lang = "-------------",
                 Presenter = "-------------",
                 Author = "-------------"
@@ -131,6 +132,7 @@ namespace Converter.Mvvm.Model
                 }
 
                 _outputProgram.Title = program.Title;
+                _outputProgram.Subject = program.Subject;
                 _outputProgram.Lang = program.Lang;
                 _outputProgram.Presenter = program.Presenter;
                 _outputProgram.Author = program.Author;

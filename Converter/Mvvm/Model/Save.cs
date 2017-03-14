@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
-using DataSource.Base;
+using DataSource.Structure;
 using Microsoft.Office.Interop.Excel;
 
 namespace Converter.Mvvm.Model
@@ -42,9 +42,10 @@ namespace Converter.Mvvm.Model
 
         private void FillCellsWithData()
         {
-            var headerToCells = new string[1, 6];
-            var columnNamesToCells = new string[1, 6];
-            var outputProgramsToCells = new string[_outputPrograms.Count, 6];
+            const int columnCount = 7;
+            var headerToCells = new string[1, columnCount];
+            var columnNamesToCells = new string[1, columnCount];
+            var outputProgramsToCells = new string[_outputPrograms.Count, columnCount];
 
             headerToCells[0, 2] = "Витяг з журналу обліку передач \n " +
                                   "за " + _nameOfChosenFileWithoutExtension + " ТОВ \"Магнолія - ТВ\"";
@@ -54,11 +55,12 @@ namespace Converter.Mvvm.Model
             columnNamesToCells[0, 3] = "Мова";
             columnNamesToCells[0, 4] = "Автор";
             columnNamesToCells[0, 5] = "Ведучий";
+            columnNamesToCells[0, 6] = "Тема";
 
             for (var row = 0; row < _outputPrograms.Count; row++)
             {
                 if (_worker != null) _worker.OnProgressChanged(row, _outputPrograms.Count - 1);
-                for (var column = 0; column < 6; column++)
+                for (var column = 0; column < columnCount; column++)
                 {
                     switch (column)
                     {
@@ -80,24 +82,27 @@ namespace Converter.Mvvm.Model
                         case 5:
                             outputProgramsToCells[row, column] = _outputPrograms[row].Presenter;
                             break;
+                        case 6:
+                            outputProgramsToCells[row, column] = _outputPrograms[row].Subject;
+                            break;
                         default:
                             continue;
                     }
                 }
             }
 
-            var range = _outputExcelApp.GetFirstWorksheetRange("A1", "F1");
+            var range = _outputExcelApp.GetFirstWorksheetRange("A1", "G1");
             range.Value2 = headerToCells;
-            range = _outputExcelApp.GetFirstWorksheetRange("A2", "F2");
+            range = _outputExcelApp.GetFirstWorksheetRange("A2", "G2");
             range.Value2 = columnNamesToCells;
             var lastRowOfData = (_outputPrograms.Count + 2).ToString();
-            range = _outputExcelApp.GetFirstWorksheetRange("A3", "F" + lastRowOfData);
+            range = _outputExcelApp.GetFirstWorksheetRange("A3", "G" + lastRowOfData);
             range.Value2 = outputProgramsToCells;
         }
 
         private void SetColorOfColumnNamesCells()
         {
-            var range = _outputExcelApp.GetFirstWorksheetRange("A2", "F2");
+            var range = _outputExcelApp.GetFirstWorksheetRange("A2", "G2");
             var interior = range.Interior;
             interior.Color = XlRgbColor.rgbLightGray;
         }

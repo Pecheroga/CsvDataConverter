@@ -16,6 +16,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label
                 Grid.Row="0"
@@ -46,6 +47,11 @@
                 Grid.Row="0"
                 Grid.Column="5"
                 Content="Presenter:"
+                Style="{StaticResource LblInputFieldsStyle}" />
+            <Label
+                Grid.Row="0"
+                Grid.Column="6"
+                Content="Subject:"
                 Style="{StaticResource LblInputFieldsStyle}" />
             <TextBox
                 Name="TitleTbx"
@@ -103,6 +109,16 @@
                 Grid.Column="5"
                 Style="{StaticResource TxbInputFieldsStyle}"
                 Text="{Binding Presenter, BindingGroupName=EditBindingGroup_1, UpdateSourceTrigger=Explicit}">
+                <i:Interaction.Behaviors>
+                    <helpers:SelectAllBehavior />
+                </i:Interaction.Behaviors>
+            </TextBox>
+
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="6"
+                Style="{StaticResource TxbInputFieldsStyle}"
+                Text="{Binding Subject, BindingGroupName=EditBindingGroup_1, UpdateSourceTrigger=Explicit}">
                 <i:Interaction.Behaviors>
                     <helpers:SelectAllBehavior />
                 </i:Interaction.Behaviors>

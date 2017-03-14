@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Converter.Helpers;
 using Converter.Mvvm.View;
-using DataSource.Base;
+using DataSource.Structure;
 
 namespace Converter.Mvvm.Model
 {

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Windows.Controls;
-using DataSource.Base;
+using DataSource.Structure;
 
 namespace Converter.Mvvm.ViewModel.Settings
 {
@@ -34,7 +34,8 @@ namespace Converter.Mvvm.ViewModel.Settings
                 EndLabel = ((TextBox)EditBindingGroup.BindingExpressions[2].Target).Text,
                 Lang = ((TextBox)EditBindingGroup.BindingExpressions[3].Target).Text,
                 Author = ((TextBox)EditBindingGroup.BindingExpressions[4].Target).Text,
-                Presenter = ((TextBox)EditBindingGroup.BindingExpressions[5].Target).Text
+                Presenter = ((TextBox)EditBindingGroup.BindingExpressions[5].Target).Text,
+                Subject = ((TextBox)EditBindingGroup.BindingExpressions[6].Target).Text
             };
             ToDb.Add(program);
             SettingsViewModel.Programs.Add(program);

@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 using Converter.Helpers;
-using DataSource.Base;
+using DataSource.Structure;
 using DataSource.Db;
 
 namespace Converter.Mvvm.ViewModel.Settings

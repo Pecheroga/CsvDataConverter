@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Windows.Controls;
 using Converter.Helpers;
-using DataSource.Base;
+using DataSource.Structure;
 
 namespace Converter.Mvvm.ViewModel.Settings
 {

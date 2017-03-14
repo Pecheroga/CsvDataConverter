@@ -5,7 +5,7 @@ using System.Windows;
 using Converter.Helpers;
 using Converter.Mvvm.View;
 using DataSource.Db;
-using DataSource.Base;
+using DataSource.Structure;
 
 namespace Converter.Mvvm.ViewModel.Settings
 {
