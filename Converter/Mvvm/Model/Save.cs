@@ -34,6 +34,7 @@ namespace Converter.Mvvm.Model
             _outputPrograms = outputPrograms;
             FillCellsWithData();
             SetColorOfColumnNamesCells();
+            SetFontSize();
             AutoFitCells();
             _outputFirstWorksheet.SaveAs(_nameOfOutputFile);
             _outputExcelApp.QuitExcelApp();
@@ -99,6 +100,13 @@ namespace Converter.Mvvm.Model
             var range = _outputExcelApp.GetFirstWorksheetRange("A2", "F2");
             var interior = range.Interior;
             interior.Color = XlRgbColor.rgbLightGray;
+        }
+
+        private void SetFontSize()
+        {
+            var range = _outputFirstWorksheet.UsedRange;
+            var font = range.Font;
+            font.Size = 8;
         }
 
         private void AutoFitCells()
