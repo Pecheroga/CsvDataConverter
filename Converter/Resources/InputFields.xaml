@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:helpers="clr-namespace:Converter.Helpers"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
-    <DataTemplate x:Key="DttmpInputFields">
+    <DataTemplate x:Key="InputFieldsDtTmplt">
         <Grid FocusManager.FocusedElement="{Binding ElementName=TitleTbx}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

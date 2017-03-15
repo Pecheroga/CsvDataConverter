@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:helpers="clr-namespace:Converter.Helpers"
+    xmlns:userControls="clr-namespace:Converter.UserControls"
     Title="{Binding WindowTitle}"
     DataContext="{Binding Path=AddDialogViewModel, Source={StaticResource ViewModelLocator}}"
     Style="{StaticResource WinAddEditStyle}"
@@ -23,20 +24,27 @@
             Name="EditItc"
             Grid.Row="0"
             BindingGroup="{Binding EditBindingGroup}"
-            ItemTemplate="{StaticResource DttmpInputFields}"
+            ItemTemplate="{StaticResource InputFieldsDtTmplt}"
             ItemsSource="{Binding SelectedProgram, Converter={StaticResource SelectedProgramToListConverter}, Mode=OneWay}"
             Style="{StaticResource ItmCtrlStyle}" />
-        <StackPanel Grid.Row="1" Style="{StaticResource StckPnlInputBtnStyle}">
-            <Button
-                Command="{Binding OkCommand}"
-                Content="Ok"
-                Style="{StaticResource BtnOkStyle}"
-                ToolTip="Save and close" />
-            <Button
-                Command="{Binding CloseWindowCommand}"
-                Content="Cancel"
-                Style="{StaticResource BtnBaseStyle}"
-                ToolTip="Cancel" />
-        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <userControls:TipText />
+            <StackPanel Grid.Column="1" Style="{StaticResource StckPnlInputBtnStyle}">
+                <Button
+                    Command="{Binding OkCommand}"
+                    Content="Ok"
+                    Style="{StaticResource BtnOkStyle}"
+                    ToolTip="Save and close" />
+                <Button
+                    Command="{Binding CloseWindowCommand}"
+                    Content="Cancel"
+                    Style="{StaticResource BtnBaseStyle}"
+                    ToolTip="Cancel" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

@@ -209,7 +209,7 @@
         x:Key="DtgSettingsStyle"
         BasedOn="{StaticResource DtgBaseStyle}"
         TargetType="{x:Type DataGrid}">
-        <Setter Property="Height" Value="300" />
+        <Setter Property="Height" Value="500" />
         <Setter Property="Background" Value="{StaticResource DtgBg}" />
         <Setter Property="ColumnWidth" Value="200" />
         <Setter Property="AutoGenerateColumns" Value="False" />

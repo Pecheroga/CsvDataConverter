@@ -114,7 +114,8 @@ namespace Converter.Mvvm.Model
             _outputProgram = new OutputProgram
             {
                 StartTime = TimeSpan.FromDays(sourceProgram.SourceStartTime).ToString(),
-                EndTime = TimeSpan.FromDays(sourceProgram.SourceStartTime + sourceProgram.SourceDuration).ToString(),
+                EndTime = 
+                TimeSpan.FromDays(sourceProgram.SourceStartTime + sourceProgram.SourceDuration).ToString(),
                 Title = sourceProgram.SourceTitle,
                 Subject = "-------------",
                 Lang = "-------------",
@@ -126,12 +127,32 @@ namespace Converter.Mvvm.Model
             {
                 if (!sourceProgram.SourceTitle.Contains(program.EndLabel)) continue;
 
+                var title = string.Empty;
                 if (program.StartLabel != program.EndLabel)
                 {
+                    if (program.Title.Contains("#"))
+                    {
+                        if (sourceProgram.SourceTitle.Contains(program.StartLabel)) continue;
+                        var splitTitle = program.Title.Split('#');
+                        var authorKeyword = splitTitle[1];
+                        if (!IsFound(authorKeyword, program.StartLabel)) continue;
+                        title = splitTitle[0];
+                    }
                     TryToReverseMerge(program);
                 }
+                else
+                {
+                    if (program.Title.Contains("#"))
+                    {
+                        var splitTitle = program.Title.Split('#');
+                        if (!sourceProgram.SourceTitle.Contains(program.StartLabel)) continue;
+                        var authorKeyword = splitTitle[1];
+                        if (!sourceProgram.SourceTitle.Contains(authorKeyword)) continue;
+                        title = splitTitle[0];
+                    }
+                }
 
-                _outputProgram.Title = program.Title;
+                _outputProgram.Title = string.IsNullOrEmpty(title) ? program.Title : title;
                 _outputProgram.Subject = program.Subject;
                 _outputProgram.Lang = program.Lang;
                 _outputProgram.Presenter = program.Presenter;
@@ -139,9 +160,23 @@ namespace Converter.Mvvm.Model
 
                 break;
             }
-
             _outputPrograms.Add(_outputProgram);
         }
+
+        private bool IsFound(string authtorKeyword, string startLabel)
+        {
+            var countRows = _outputPrograms.Count;
+            string currentTitle;
+            bool find;
+            do
+            {
+                currentTitle = _outputPrograms[countRows - 1].Title;
+                find = currentTitle.Contains(authtorKeyword);
+                if (find) break; 
+                countRows--;
+            } while (!currentTitle.Contains(startLabel));
+            return find;
+        } 
 
         private void TryToReverseMerge(IProgram program)
         {
@@ -161,7 +196,7 @@ namespace Converter.Mvvm.Model
             }
         }
 
-        private string ReverseMergeFromEndLabelTo(string startLable)
+        private string ReverseMergeFromEndLabelTo(string startLabel)
         {
             var countRows = _outputPrograms.Count;
             string currentTitle;
@@ -172,8 +207,7 @@ namespace Converter.Mvvm.Model
                 startTime = _outputPrograms[countRows - 1].StartTime;
                 _outputPrograms.RemoveAt(countRows - 1);
                 countRows--;
-            } while (!currentTitle.Contains(startLable));
-
+            } while (!currentTitle.Contains(startLabel));
             return startTime;
         }
 

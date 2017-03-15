@@ -38,7 +38,7 @@
     <Window.Resources>
         <CollectionViewSource x:Key="DtgCollectionViewSource" Source="{Binding Programs}">
             <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription Direction="Descending" PropertyName="Id" />
+                <scm:SortDescription Direction="Ascending" PropertyName="Title" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </Window.Resources>

@@ -132,6 +132,9 @@
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SelectAllBehavior.cs" />
     <Compile Include="Helpers\SelectedProgramToListConverter.cs" />
+    <Compile Include="UserControls\TipText.xaml.cs">
+      <DependentUpon>TipText.xaml</DependentUpon>
+    </Compile>
     <Page Include="Mvvm\View\AboutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -173,6 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Loading.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\TipText.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
